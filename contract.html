@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>اتفاقية اشتراك منصة صنع في الإمارات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBFAF7;
+    --card:#FFFFFF;
+    --ink:#16130F;
+    --muted:#6B655B;
+    --line:#E7E2D6;
+    --red:#CE1126;
+    --red-deep:#A50E1F;
+    --green:#007A3D;
+    --black:#141414;
+    --gold:#B4924C;
+    --gold-soft:#EEDFBB;
+    --band:44px;
+    --shadow:0 1px 2px rgba(20,19,15,.04),0 12px 40px rgba(20,19,15,.06);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 90% -10%, #fff 0%, var(--paper) 55%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;
+    font-size:16px;line-height:1.85;
+    padding:26px 14px 60px;
+  }
+  .sheet{
+    max-width:920px;margin:0 auto;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    box-shadow:var(--shadow);position:relative;
+  }
+  /* UAE flag: top ribbon (green/white/black) + red hoist band on the right (RTL start) */
+  .flag-ribbon{display:flex;height:8px}
+  .flag-ribbon i{flex:1}
+  .flag-ribbon .g{background:var(--green)}
+  .flag-ribbon .w{background:#fff;box-shadow:inset 0 -1px 0 var(--line)}
+  .flag-ribbon .k{background:var(--black)}
+  .body-wrap{position:relative}
+  .hoist{
+    position:absolute;top:0;right:0;width:var(--band);height:100%;
+    background:linear-gradient(180deg,var(--red),var(--red-deep));
+  }
+  .hoist:after{
+    content:"MADE IN THE U.A.E.";position:absolute;top:50%;right:50%;
+    transform:translate(50%,-50%) rotate(180deg);writing-mode:vertical-rl;
+    color:rgba(255,255,255,.85);font:600 10px/1 'IBM Plex Sans Arabic';
+    letter-spacing:3px;white-space:nowrap;
+  }
+  .content{padding:34px 30px 30px;margin-right:var(--band)}
+
+  /* Masthead */
+  .masthead{display:flex;gap:18px;align-items:center;justify-content:space-between;
+    padding-bottom:20px;border-bottom:2px solid var(--ink);flex-wrap:wrap}
+  .brand-txt h1{font-family:'Amiri',serif;font-weight:700;font-size:30px;line-height:1.2;margin:0;color:var(--ink)}
+  .brand-txt .en{font-size:12px;letter-spacing:2px;color:var(--muted);margin-top:4px;font-weight:600}
+  .brand-txt h2{font-size:15px;font-weight:600;color:var(--red-deep);margin:10px 0 0}
+  .seal{
+    width:96px;height:96px;flex:0 0 auto;border-radius:50%;
+    display:grid;place-items:center;text-align:center;
+    background:radial-gradient(circle at 50% 40%,#fff, #fdfaf2);
+    border:2px solid var(--gold);box-shadow:0 0 0 4px #fff,0 0 0 5px var(--gold-soft);
+    position:relative;
+  }
+  .seal .ring{position:absolute;inset:8px;border:1px dashed var(--gold);border-radius:50%}
+  .seal b{font-family:'Amiri',serif;font-size:13px;color:var(--red-deep);line-height:1.3;padding:0 8px;z-index:1}
+  .seal small{position:absolute;bottom:12px;font-size:7px;letter-spacing:1.5px;color:var(--gold);font-weight:700}
+
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px}
+  .meta .chip{background:#faf7ef;border:1px solid var(--line);border-radius:999px;
+    padding:6px 14px;font-size:12.5px;color:var(--muted);font-weight:500}
+  .meta .chip b{color:var(--ink);font-weight:700}
+
+  .preamble{background:#faf8f2;border:1px solid var(--line);border-right:4px solid var(--gold);
+    border-radius:10px;padding:16px 18px;margin:20px 0 8px;font-size:14.5px;color:#332f27}
+  .offer{margin:18px 0 4px;border:1px solid var(--gold);border-radius:14px;overflow:hidden;
+    background:linear-gradient(180deg,#fffdf7,#fbf6e9)}
+  .offer .head{display:flex;align-items:center;gap:10px;padding:12px 18px;
+    background:linear-gradient(90deg,var(--green),#0a6b3c);color:#fff}
+  .offer .head b{font-size:15.5px;font-weight:700}
+  .offer .head .badge{margin-inline-start:auto;background:var(--red);color:#fff;font-size:11px;
+    font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:999px}
+  .offer .perks{list-style:none;margin:0;padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+  .offer .perks li{display:flex;gap:10px;font-size:14px;color:#332f27;align-items:flex-start}
+  .offer .perks li .ic{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:var(--green);
+    color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}
+  .offer .perks li b{color:var(--ink)}
+  @media (max-width:640px){.offer .perks{grid-template-columns:1fr}}
+  .parties{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+  .party{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--card)}
+  .party .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;
+    padding:3px 10px;border-radius:999px;color:#fff;margin-bottom:8px}
+  .party.p1 .tag{background:var(--green)}
+  .party.p2 .tag{background:var(--red)}
+  .party h3{margin:2px 0 6px;font-size:16px}
+  .party p{margin:0;font-size:13px;color:var(--muted);line-height:1.7}
+
+  /* Articles */
+  .article{margin:22px 0;page-break-inside:avoid}
+  .article > h4{
+    display:flex;align-items:center;gap:10px;font-size:16.5px;font-weight:700;margin:0 0 8px;color:var(--ink)}
+  .article > h4 .no{
+    flex:0 0 auto;min-width:30px;height:30px;padding:0 6px;border-radius:8px;
+    background:var(--ink);color:#fff;display:grid;place-items:center;
+    font-size:13px;font-weight:700;font-family:'IBM Plex Sans Arabic'}
+  .article ol{margin:2px 0 0;padding-inline-start:26px}
+  .article ol li{margin:6px 0;font-size:14.3px;color:#2c2822}
+  .article > p{margin:4px 0;font-size:14.3px;color:#2c2822}
+  .divider{height:1px;background:var(--line);margin:26px 0}
+  .lead{font-size:14.3px;color:#2c2822;margin:0 0 6px}
+
+  /* Signature / submission */
+  .exec{background:linear-gradient(180deg,#fff,#fbf9f3);border:1px solid var(--line);
+    border-radius:16px;padding:22px 20px;margin-top:14px}
+  .exec h3{margin:0 0 4px;font-size:19px}
+  .exec .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .field label{font-size:13px;font-weight:600;color:#3a352d}
+  .field .req{color:var(--red)}
+  .field input,.field select,.field textarea{
+    font-family:inherit;font-size:14px;padding:11px 13px;border:1px solid var(--line);
+    border-radius:10px;background:#fff;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,122,61,.12)}
+  .field .hint{font-size:11.5px;color:var(--muted)}
+
+  .sigbox{margin:6px 0 4px}
+  .sigwrap{position:relative;border:1.5px dashed #c9c2b2;border-radius:12px;background:#fff;overflow:hidden}
+  .sigwrap:before{content:"وقّع هنا · Sign here";position:absolute;inset:0;display:grid;place-items:center;
+    color:#c3bcac;font-size:14px;pointer-events:none;transition:opacity .2s}
+  .sigwrap.inked:before{opacity:0}
+  canvas#pad{display:block;width:100%;height:190px;touch-action:none;cursor:crosshair}
+  .sigline{position:absolute;left:20px;right:20px;bottom:34px;height:1px;background:#e2dccc}
+  .sigtools{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+  .clearbtn{background:none;border:none;color:var(--red-deep);font-family:inherit;font-size:13px;
+    font-weight:600;cursor:pointer;padding:6px 4px}
+  .clearbtn:hover{text-decoration:underline}
+  .sigtools span{font-size:11.5px;color:var(--muted)}
+
+  .consent{display:flex;gap:10px;align-items:flex-start;margin:10px 0 18px;font-size:13px;color:#3a352d}
+  .consent input{margin-top:4px;width:17px;height:17px;accent-color:var(--green)}
+
+  .actions{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border:none;border-radius:12px;
+    padding:14px 22px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:transform .08s,box-shadow .15s,opacity .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:linear-gradient(180deg,var(--green),#006733);color:#fff;
+    box-shadow:0 6px 18px rgba(0,122,61,.28)}
+  .btn-primary:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--ink)}
+
+  .status{margin-top:16px;padding:13px 16px;border-radius:11px;font-size:14px;font-weight:600;display:none}
+  .status.show{display:block}
+  .status.ok{background:#e9f6ee;color:#0a5e30;border:1px solid #b7e2c6}
+  .status.err{background:#fdecec;color:#9a1017;border:1px solid #f3c3c3}
+  .status.info{background:#f1f4fb;color:#33456b;border:1px solid #d3ddf1}
+
+  .footnote{font-size:11.5px;color:var(--muted);text-align:center;margin-top:26px;line-height:1.7}
+  .spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;
+    border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  @media (max-width:640px){
+    body{font-size:15px}
+    .content{padding:24px 18px 22px}
+    .brand-txt h1{font-size:24px}
+    .parties,.grid2{grid-template-columns:1fr}
+    :root{--band:30px}
+    .seal{width:80px;height:80px}
+  }
+  @media print{
+    body{background:#fff;padding:0}
+    .sheet{box-shadow:none;border:none;border-radius:0;max-width:100%}
+    .no-print,.actions,.sigtools,.consent input{display:none!important}
+    .hoist{position:fixed}
+  }
+</style>
+</head>
+<body>
+<div class="sheet" id="sheet">
+  <div class="flag-ribbon"><i class="g"></i><i class="w"></i><i class="k"></i></div>
+  <div class="body-wrap">
+    <div class="hoist"></div>
+    <div class="content">
+
+      <!-- Masthead -->
+      <div class="masthead">
+        <div class="brand-txt">
+          <h1>صُنع في الإمارات</h1>
+          <div class="en">MADE IN THE UNITED ARAB EMIRATES</div>
+          <h2>اتفاقية اشتراك في المنصة الرقمية</h2>
+        </div>
+        <div class="seal">
+          <span class="ring"></span>
+          <b>صنع في<br>الإمارات</b>
+          <small>OFFICIAL · 2026</small>
+        </div>
+      </div>
+
+      <div class="meta">
+        <span class="chip">رقم الاتفاقية: <b id="refNo">—</b></span>
+        <span class="chip">تاريخ الإصدار: <b id="issueDate">—</b></span>
+        <span class="chip">النسخة: <b>1.0 / عربي</b></span>
+      </div>
+
+      <!-- Preamble -->
+      <div class="preamble">
+        <strong>تمهيد:</strong> أُبرمت هذه الاتفاقية ("الاتفاقية") بتاريخ التوقيع المبيّن في نهايتها،
+        بين كلٍّ من منصة «صنع في الإمارات» بوصفها الطرف الأول، والجهة المشتركة الموقّعة أدناه بوصفها الطرف الثاني.
+        وحيث إن الطرف الأول يملك ويُشغّل منصةً رقميةً متخصصةً في التعريف بالمنتجات والخدمات الوطنية وتسويقها،
+        وحيث إن الطرف الثاني يرغب في الاشتراك في خدمات المنصة للاستفادة منها؛ فقد اتفق الطرفان — وهما بكامل الأهلية
+        المعتبرة نظامًا — على البنود التالية التي يُعدّ التمهيد أعلاه جزءًا لا يتجزأ منها ومكمّلًا لها.
+      </div>
+
+      <!-- Parties -->
+      <div class="parties">
+        <div class="party p1">
+          <span class="tag">الطرف الأول</span>
+          <h3>منصة «صنع في الإمارات»</h3>
+          <p>الجهة المالكة والمشغّلة للمنصة الرقمية.<br>
+          البريد الإلكتروني: info@madeuae.ae<br>
+          دولة الإمارات العربية المتحدة.</p>
+        </div>
+        <div class="party p2">
+          <span class="tag">الطرف الثاني</span>
+          <h3>المصنع / الشركة المشتركة</h3>
+          <p>الجهة الموقّعة أدناه والمشار إلى بياناتها في خانة التوقيع،
+          وتُعامل بياناتها المُدخَلة عند التوقيع جزءًا من هذه الاتفاقية.</p>
+        </div>
+      </div>
+
+      <!-- Promotional offer -->
+      <div class="offer">
+        <div class="head">
+          <b>مزايا العرض الترويجي — على حساب المنصة</b>
+          <span class="badge">هدية الانضمام</span>
+        </div>
+        <ul class="perks">
+          <li><span class="ic">✓</span><span><b>أول ٣ أشهر مجانًا:</b> إعفاء كامل من رسوم الاشتراك خلال الأشهر الثلاثة الأولى من تفعيل الخدمة.</span></li>
+          <li><span class="ic">✓</span><span><b>تصوير احترافي على حسابنا:</b> تتكفّل المنصة بتصوير المنتجات دون أي رسوم على الطرف الثاني.</span></li>
+          <li><span class="ic">✓</span><span><b>إعلانات مجهّزة من طرفنا:</b> تتولّى المنصة إعداد المواد الإعلانية وتوفيرها للطرف الثاني.</span></li>
+          <li><span class="ic">✓</span><span><b>تحديث المنتجات علينا:</b> تتولّى المنصة تنفيذ تحديثات بيانات ومحتوى منتجات الطرف الثاني.</span></li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Articles -->
+      <div class="article">
+        <h4><span class="no">١</span> التعريفات</h4>
+        <p class="lead">يُقصد بالمصطلحات التالية — أينما وردت في هذه الاتفاقية — المعاني المبيّنة قرين كلٍّ منها ما لم يقتضِ السياق خلاف ذلك:</p>
+        <ol>
+          <li><strong>المنصة:</strong> المنصة الرقمية «صنع في الإمارات» بما تشمله من موقع إلكتروني وتطبيق وأنظمة تشغيل تابعة للطرف الأول.</li>
+          <li><strong>الخدمات:</strong> الخدمات التسويقية والإعلانية والرقمية التي يقدّمها الطرف الأول للطرف الثاني عبر المنصة وفق باقة الاشتراك.</li>
+          <li><strong>باقة الاشتراك:</strong> حزمة الخدمات ومستوى التغطية والرسوم المتفق عليها كتابةً بين الطرفين.</li>
+          <li><strong>الصفحة التعريفية:</strong> الصفحة المخصّصة للطرف الثاني على المنصة لعرض بياناته ومنتجاته وخدماته.</li>
+          <li><strong>المعلومات السرية:</strong> كل معلومة أو بيان يُفصح عنه أحد الطرفين للآخر بأي وسيلة، ولا يكون متاحًا للعموم.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٢</span> موضوع الاتفاقية ونطاق الخدمات</h4>
+        <ol>
+          <li>يقدّم الطرف الأول للطرف الثاني خدمات تسويقية وإعلانية ورقمية من خلال المنصة، وفقًا لباقة الاشتراك المتفق عليها.</li>
+          <li>تشمل الخدمات — على سبيل المثال لا الحصر — إنشاء صفحة تعريفية للطرف الثاني، وعرض منتجاته وخدماته، وإدراجه ضمن أدلّة المنصة، وتنفيذ الحملات والخدمات وفق حدود الباقة.</li>
+          <li>يجوز للطرفين الاتفاق كتابةً على خدمات إضافية مقابل رسوم إضافية، وتُعدّ ملحقًا مكمّلًا لهذه الاتفاقية.</li>
+          <li>يحقّ للطرف الأول تطوير المنصة وتحديث مزاياها وواجهاتها بما لا يخلّ جوهريًا بالخدمات المتفق عليها.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٣</span> مدة الاشتراك والتجديد</h4>
+        <ol>
+          <li>مدة الاشتراك سنة ميلادية واحدة تبدأ من تاريخ تفعيل الخدمة.</li>
+          <li>تُجدَّد المدة تلقائيًا لمدد مماثلة ما لم يُشعِر أحد الطرفين الآخر كتابةً برغبته في عدم التجديد قبل انتهاء المدة بمدة لا تقل عن ثلاثين (٣٠) يومًا.</li>
+          <li>يخضع التجديد للرسوم السارية وقت التجديد ما لم يُتّفق على خلاف ذلك كتابةً.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٤</span> الرسوم وشروط السداد والفترة المجانية</h4>
+        <ol>
+          <li><strong>الفترة الترويجية المجانية:</strong> يُمنح الطرف الثاني إعفاءً كاملًا من رسوم الاشتراك عن الأشهر الثلاثة (٣) الأولى المحتسبة من تاريخ تفعيل الخدمة، وتُستحقّ رسوم الاشتراك المتفق عليها اعتبارًا من الشهر الرابع.</li>
+          <li>يلتزم الطرف الثاني بسداد قيمة الاشتراك المتفق عليها كاملةً عن المدة التالية للفترة المجانية.</li>
+          <li>تُفعَّل الخدمة عند بدء الفترة المجانية دون مقابل، ويُشترط لاستمرارها بعد انقضاء تلك الفترة سدادُ رسوم الاشتراك المستحقّة.</li>
+          <li>يتحمّل الطرف الثاني أي رسوم تحويل أو عمولات بنكية مرتبطة بعملية السداد.</li>
+          <li>يحقّ للطرف الأول تعليق الخدمة عند التأخّر في سداد أي مبالغ مستحقّة لمدة تتجاوز خمسة عشر (١٥) يومًا من تاريخ الاستحقاق.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٥</span> ضريبة القيمة المضافة والرسوم الحكومية</h4>
+        <ol>
+          <li>تُضاف ضريبة القيمة المضافة (VAT) وأي رسوم أو ضرائب حكومية مقرّرة نظامًا إلى قيمة الاشتراك، ويتحمّلها الطرف الثاني.</li>
+          <li>يصدر الطرف الأول فاتورة ضريبية نظامية بقيمة الاشتراك عند السداد.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٦</span> التزامات الطرف الأول (المنصة)</h4>
+        <ol>
+          <li>تشغيل المنصة وإتاحتها وفق المعايير الفنية المعتادة، مع بذل العناية اللازمة لاستمرارية الخدمة.</li>
+          <li>إنشاء الصفحة التعريفية وعرض بيانات الطرف الثاني ومنتجاته وفق المتفق عليه.</li>
+          <li>تقديم الدعم الفني للطرف الثاني خلال أوقات العمل الرسمية عبر القنوات المعتمدة.</li>
+          <li>تنفيذ الخدمات المتّفق عليها ضمن باقة الاشتراك خلال المدد المعقولة.</li>
+          <li><strong>التصوير الاحترافي للمنتجات على نفقة الطرف الأول</strong> دون تحميل الطرف الثاني أي رسوم، وتؤول حقوق استخدام الصور لأغراض العرض والترويج على المنصة.</li>
+          <li><strong>إعداد وتوفير المواد الإعلانية</strong> الخاصة بالطرف الثاني من قبل الطرف الأول، بما يتناسب مع الخدمات المقدّمة عبر المنصة.</li>
+          <li><strong>تنفيذ تحديثات بيانات ومحتوى منتجات الطرف الثاني</strong> بناءً على ما يزوّده به الطرف الثاني من معلومات صحيحة ومحدّثة.</li>
+          <li>الحفاظ على سرية بيانات الطرف الثاني وفق البند الخاص بالسرية وحماية البيانات.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٧</span> التزامات الطرف الثاني (المشترك)</h4>
+        <ol>
+          <li>تقديم بيانات صحيحة وكاملة ومحدّثة عن منشأته ومنتجاته وخدماته، وتحديثها عند أي تغيير.</li>
+          <li>الالتزام بالقوانين والأنظمة المعمول بها في دولة الإمارات العربية المتحدة، وامتلاك التراخيص اللازمة لممارسة نشاطه.</li>
+          <li>تحمّل كامل المسؤولية عن منتجاته وخدماته وجودتها ومطابقتها للمواصفات، وعن أي مطالبات تنشأ عنها.</li>
+          <li>عدم استخدام المنصة في أي غرض غير مشروع أو مخالف للآداب العامة أو مخلّ بحقوق الغير.</li>
+          <li>عدم نشر أو رفع أي محتوى يخالف حقوق الملكية الفكرية للغير أو ينتهك خصوصيتهم.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٨</span> حدود المسؤولية</h4>
+        <ol>
+          <li>تعمل المنصة بصفتها وسيطًا تسويقيًا رقميًا، ولا تضمن تحقيق عددٍ معيّن من العملاء أو المبيعات أو نتائج تجارية محدّدة.</li>
+          <li>لا يتحمّل الطرف الأول أي مسؤولية عن الأضرار غير المباشرة أو التبعية أو فوات الكسب أو الأرباح المتوقّعة.</li>
+          <li>تقتصر المسؤولية الإجمالية للطرف الأول — في جميع الأحوال — على قيمة رسوم الاشتراك المدفوعة فعليًا خلال المدة محل المطالبة.</li>
+          <li>لا يُسأل الطرف الأول عن انقطاع الخدمة الناتج عن أعمال صيانة أو أعطال فنية خارجة عن إرادته أو عن مزوّدي الخدمات الخارجيين.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">٩</span> الملكية الفكرية</h4>
+        <ol>
+          <li>تبقى حقوق العلامات التجارية والأسماء والشعارات ومحتوى المنتجات العائدة للطرف الثاني مملوكةً له وحده.</li>
+          <li>يمنح الطرف الثاني الطرف الأول ترخيصًا غير حصري لاستخدام تلك العناصر لغرض تنفيذ الخدمات والترويج له عبر المنصة طوال مدة الاشتراك.</li>
+          <li>تعود جميع حقوق المنصة والتطبيق والأنظمة والتصاميم والبرمجيات وقواعد البيانات للطرف الأول، ولا يجوز نسخها أو استغلالها دون إذن كتابي.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٠</span> السرية وحماية البيانات</h4>
+        <ol>
+          <li>يلتزم كلا الطرفين بالحفاظ على سرية المعلومات السرية وعدم إفشائها للغير إلا بموافقة كتابية أو بحكم القانون.</li>
+          <li>يعالج الطرف الأول البيانات الشخصية وفق التشريعات المعمول بها في الدولة لحماية البيانات، ولغرض تقديم الخدمات فقط.</li>
+          <li>يستمر التزام السرية ساريًا لمدة لا تقل عن سنتين بعد انتهاء الاتفاقية أو إنهائها.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١١</span> الإقرارات والضمانات</h4>
+        <ol>
+          <li>يقرّ كل طرف بأنه يملك الأهلية والصلاحية النظامية لإبرام هذه الاتفاقية وتنفيذ التزاماته بموجبها.</li>
+          <li>يضمن الطرف الثاني صحّة كل البيانات والمستندات المقدّمة منه، ويُعدّ مسؤولًا عن أي ضرر ينشأ عن عدم صحّتها.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٢</span> التعويض</h4>
+        <p>يلتزم الطرف الثاني بتعويض الطرف الأول عن أي خسائر أو أضرار أو مطالبات أو غرامات تنشأ عن إخلاله بالتزاماته، أو عن منتجاته وخدماته، أو عن مخالفته للقوانين أو لحقوق الغير.</p>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٣</span> القوة القاهرة</h4>
+        <p>لا يُعدّ أيٌّ من الطرفين مخلًّا بالتزاماته إذا حال دون تنفيذها سبب قاهر خارج عن إرادته وتعذّر توقّعه أو دفعه، كالكوارث الطبيعية أو الأوبئة أو قرارات السلطات أو انقطاع البنية التحتية، على أن يُخطِر الطرف المتأثّر الطرف الآخر خلال مدة معقولة.</p>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٤</span> إنهاء الاتفاقية واسترداد الرسوم</h4>
+        <ol>
+          <li>لا تُسترَد رسوم الاشتراك بعد تفعيل الخدمة، إلا إذا اتفق الطرفان كتابةً على خلاف ذلك.</li>
+          <li>يحقّ لأي طرف إنهاء الاتفاقية فورًا بإشعار كتابي عند إخلال الطرف الآخر إخلالًا جوهريًا وعدم تصحيحه خلال خمسة عشر (١٥) يومًا من الإخطار.</li>
+          <li>لا يُخلّ إنهاء الاتفاقية بأي حقوق أو التزامات نشأت قبل الإنهاء، وتظل بنود السرية والملكية الفكرية والمسؤولية سارية.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٥</span> الإشعارات</h4>
+        <p>تُوجَّه كل الإشعارات والمراسلات بين الطرفين كتابةً عبر البريد الإلكتروني المعتمد لكلٍّ منهما (بريد الطرف الأول: info@madeuae.ae، وبريد الطرف الثاني المُدرَج عند التوقيع)، وتُعدّ منتِجةً لأثرها من تاريخ الإرسال.</p>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٦</span> التنازل</h4>
+        <p>لا يجوز للطرف الثاني التنازل عن هذه الاتفاقية أو أيٍّ من حقوقه أو التزاماتها للغير دون موافقة كتابية مسبقة من الطرف الأول.</p>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٧</span> التعديلات</h4>
+        <p>لا يُعتدّ بأي تعديل على هذه الاتفاقية ما لم يكن مكتوبًا وموقّعًا من الطرفين، أو مؤكّدًا كتابةً عبر القنوات الرسمية المعتمدة بينهما.</p>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٨</span> القانون الواجب التطبيق وتسوية النزاعات</h4>
+        <ol>
+          <li>تخضع هذه الاتفاقية وتُفسَّر وفقًا لقوانين دولة الإمارات العربية المتحدة.</li>
+          <li>يسعى الطرفان لتسوية أي نزاع ودّيًا، فإن تعذّر ذلك خلال ثلاثين (٣٠) يومًا يُحال النزاع إلى المحاكم المختصة في دولة الإمارات العربية المتحدة.</li>
+        </ol>
+      </div>
+
+      <div class="article">
+        <h4><span class="no">١٩</span> أحكام عامة</h4>
+        <ol>
+          <li>تمثّل هذه الاتفاقية — مع ملاحقها إن وُجدت — كامل الاتفاق بين الطرفين، وتَجُبّ أي تفاهمات سابقة.</li>
+          <li>إذا بطل أو تعذّر تنفيذ أي بند، ظلّت باقي البنود سارية ونافذة.</li>
+          <li>عدم استعمال أي طرف لحقٍّ من حقوقه لا يُعدّ تنازلًا عنه.</li>
+          <li>حُرّرت هذه الاتفاقية باللغة العربية، وتكون هي المرجع المعتمد عند أي اختلاف في الترجمة.</li>
+        </ol>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Execution / signature -->
+      <div class="exec no-print-wrapper">
+        <h3>التوقيع والاعتماد</h3>
+        <p class="sub">يُقرّ الطرف الثاني بأنه اطّلع على كامل بنود الاتفاقية وقبِلها، ويعتمدها بالتوقيع أدناه.</p>
+
+        <div class="grid2">
+          <div class="field">
+            <label>اسم المصنع / الشركة <span class="req">*</span></label>
+            <input id="company" type="text" placeholder="الاسم التجاري للجهة المشتركة" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label>اسم الممثّل المفوّض <span class="req">*</span></label>
+            <input id="rep" type="text" placeholder="اسم الشخص المخوّل بالتوقيع" autocomplete="name" />
+          </div>
+          <div class="field">
+            <label>البريد الإلكتروني للطرف الثاني <span class="req">*</span></label>
+            <input id="email" type="email" placeholder="name@company.ae" autocomplete="email" inputmode="email" />
+            <span class="hint">تُرسَل نسخة موقّعة من الاتفاقية إلى هذا البريد وإلى info@madeuae.ae.</span>
+          </div>
+          <div class="field">
+            <label>رقم الهاتف</label>
+            <input id="phone" type="tel" placeholder="+971 5X XXX XXXX" autocomplete="tel" inputmode="tel" />
+          </div>
+          <div class="field">
+            <label>رقم الرخصة التجارية</label>
+            <input id="license" type="text" placeholder="اختياري" />
+          </div>
+          <div class="field">
+            <label>باقة الاشتراك</label>
+            <select id="package">
+              <option value="">— اختر الباقة —</option>
+              <option>الباقة الأساسية</option>
+              <option>الباقة المتقدّمة</option>
+              <option>باقة الأعمال</option>
+              <option>باقة مخصّصة</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>تاريخ التوقيع <span class="req">*</span></label>
+            <input id="signdate" type="date" />
+          </div>
+        </div>
+
+        <div class="field sigbox">
+          <label>توقيع الطرف الثاني <span class="req">*</span></label>
+          <div class="sigwrap" id="sigwrap">
+            <canvas id="pad"></canvas>
+            <div class="sigline"></div>
+          </div>
+          <div class="sigtools">
+            <button type="button" class="clearbtn" id="clearSig">مسح التوقيع ✕</button>
+            <span>يمكن التوقيع باللمس على الجوال أو بالفأرة.</span>
+          </div>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="agree" />
+          <span>أُقرّ بأنني قرأت جميع بنود هذه الاتفاقية وفهمتها وأوافق عليها، وأنّ التوقيع الإلكتروني أعلاه مُلزِم قانونًا بحقّي.</span>
+        </label>
+
+        <div class="actions no-print">
+          <button class="btn btn-primary" id="submitBtn">
+            <span id="btnText">توقيع وإرسال الاتفاقية</span>
+          </button>
+          <button class="btn btn-ghost" id="printBtn">حفظ / طباعة نسخة PDF</button>
+        </div>
+
+        <div class="status" id="status"></div>
+      </div>
+
+      <p class="footnote">
+        منصة «صنع في الإمارات» — Made in the U.A.E.<br>
+        هذا المستند اتفاقية إلكترونية معتمدة تخضع لقوانين دولة الإمارات العربية المتحدة.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   إعداد الإرسال بالبريد (Web3Forms) — خطوة واحدة فقط:
+   1) أنشئ مفتاحًا مجانيًا من https://web3forms.com عبر تسجيل
+      البريد info@madeuae.ae (سيصلك المفتاح على نفس البريد).
+   2) ضع المفتاح مكان القيمة أدناه.
+   إن تُرك المفتاح فارغًا، سيعمل الزر بوضع بديل يفتح تطبيق
+   البريد لدى الموقّع مع تعبئة الرسالة تلقائيًا إلى info@madeuae.ae.
+   ============================================================ */
+const WEB3FORMS_ACCESS_KEY = "";           // ← ضع مفتاح Web3Forms هنا
+const OWNER_EMAIL = "info@madeuae.ae";
+
+/* ---- Reference number + dates ---- */
+const now = new Date();
+const pad2 = n => String(n).padStart(2,'0');
+const ref = "MUAE-" + now.getFullYear() + pad2(now.getMonth()+1) + pad2(now.getDate())
+          + "-" + Math.floor(1000 + Math.random()*9000);
+document.getElementById('refNo').textContent = ref;
+const fmtDate = d => d.toLocaleDateString('ar-AE',{year:'numeric',month:'long',day:'numeric'});
+document.getElementById('issueDate').textContent = fmtDate(now);
+document.getElementById('signdate').value = now.getFullYear()+"-"+pad2(now.getMonth()+1)+"-"+pad2(now.getDate());
+
+/* ---- Signature pad (high-DPI + touch) ---- */
+const canvas = document.getElementById('pad');
+const wrap = document.getElementById('sigwrap');
+const ctx = canvas.getContext('2d');
+let drawing=false, hasInk=false, last=null;
+
+function sizeCanvas(){
+  const dpr = window.devicePixelRatio || 1;
+  const r = canvas.getBoundingClientRect();
+  const data = hasInk ? canvas.toDataURL() : null;
+  canvas.width = Math.round(r.width*dpr);
+  canvas.height = Math.round(r.height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.lineJoin=ctx.lineCap='round';
+  ctx.lineWidth=2.4;
+  ctx.strokeStyle='#12305c';
+  if(data){ const img=new Image(); img.onload=()=>ctx.drawImage(img,0,0,r.width,r.height); img.src=data; }
+}
+window.addEventListener('resize', sizeCanvas);
+sizeCanvas();
+
+function pos(e){
+  const r = canvas.getBoundingClientRect();
+  const t = e.touches ? e.touches[0] : e;
+  return { x:t.clientX-r.left, y:t.clientY-r.top };
+}
+function start(e){ e.preventDefault(); drawing=true; last=pos(e); }
+function move(e){
+  if(!drawing) return; e.preventDefault();
+  const p=pos(e);
+  ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+  last=p;
+  if(!hasInk){ hasInk=true; wrap.classList.add('inked'); }
+}
+function end(e){ drawing=false; }
+canvas.addEventListener('pointerdown',start);
+canvas.addEventListener('pointermove',move);
+window.addEventListener('pointerup',end);
+
+document.getElementById('clearSig').addEventListener('click',()=>{
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  hasInk=false; wrap.classList.remove('inked');
+});
+
+/* ---- Helpers ---- */
+const $ = id => document.getElementById(id);
+const status = $('status');
+function showStatus(type,msg){ status.className='status show '+type; status.innerHTML=msg; }
+function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+const canvasToBlob = () => new Promise(res => canvas.toBlob(res,'image/png'));
+
+/* ---- Print ---- */
+$('printBtn').addEventListener('click',()=>window.print());
+
+/* ---- Submit ---- */
+$('submitBtn').addEventListener('click', async ()=>{
+  const company=$('company').value.trim();
+  const rep=$('rep').value.trim();
+  const email=$('email').value.trim();
+  const phone=$('phone').value.trim();
+  const license=$('license').value.trim();
+  const pkg=$('package').value;
+  const sdate=$('signdate').value;
+
+  if(!company||!rep){ showStatus('err','يرجى إدخال اسم الشركة واسم الممثّل المفوّض.'); return; }
+  if(!validEmail(email)){ showStatus('err','يرجى إدخال بريد إلكتروني صحيح.'); return; }
+  if(!sdate){ showStatus('err','يرجى تحديد تاريخ التوقيع.'); return; }
+  if(!hasInk){ showStatus('err','يرجى التوقيع في الحقل المخصّص قبل الإرسال.'); return; }
+  if(!$('agree').checked){ showStatus('err','يرجى الموافقة على البنود بوضع علامة على مربّع الإقرار.'); return; }
+
+  const btn=$('submitBtn'), txt=$('btnText');
+  btn.disabled=true; txt.innerHTML='<span class="spin"></span> جارٍ الإرسال...';
+
+  const summary =
+`اتفاقية اشتراك منصة "صنع في الإمارات"
+رقم الاتفاقية: ${ref}
+تاريخ الإصدار: ${fmtDate(now)}
+
+بيانات الطرف الثاني (المشترك):
+• اسم الشركة/المصنع: ${company}
+• الممثّل المفوّض: ${rep}
+• البريد الإلكتروني: ${email}
+• الهاتف: ${phone||'—'}
+• رقم الرخصة: ${license||'—'}
+• باقة الاشتراك: ${pkg||'—'}
+• تاريخ التوقيع: ${sdate}
+
+أقرّ الموقّع بقبوله كامل بنود الاتفاقية، والتوقيع الإلكتروني مرفق بهذه الرسالة.`;
+
+  /* Fallback mode: no access key → open email client */
+  if(!WEB3FORMS_ACCESS_KEY){
+    const body = encodeURIComponent(summary + "\n\n(ملاحظة: تعذّر إرفاق صورة التوقيع تلقائيًا عبر هذا الوضع؛ يُرجى إرفاق النسخة المطبوعة/PDF.)");
+    const subject = encodeURIComponent("اتفاقية اشتراك موقّعة — "+company+" — "+ref);
+    window.location.href = `mailto:${OWNER_EMAIL}?cc=${encodeURIComponent(email)}&subject=${subject}&body=${body}`;
+    btn.disabled=false; txt.textContent='توقيع وإرسال الاتفاقية';
+    showStatus('info','تم فتح تطبيق البريد لديك لإرسال الاتفاقية إلى '+OWNER_EMAIL+' مع نسخة إليك. ولإرسال آليّ يتضمّن صورة التوقيع، فعّل مفتاح Web3Forms (تعليمات داخل الملف).');
+    return;
+  }
+
+  try{
+    const blob = await canvasToBlob();
+    const fd = new FormData();
+    fd.append('access_key', WEB3FORMS_ACCESS_KEY);
+    fd.append('subject', 'اتفاقية اشتراك موقّعة — '+company+' — '+ref);
+    fd.append('from_name', 'منصة صنع في الإمارات');
+    fd.append('replyto', email);
+    fd.append('cc', email);              // نسخة إلى الطرف الثاني
+    fd.append('رقم الاتفاقية', ref);
+    fd.append('الشركة', company);
+    fd.append('الممثّل المفوّض', rep);
+    fd.append('البريد', email);
+    fd.append('الهاتف', phone||'—');
+    fd.append('رقم الرخصة', license||'—');
+    fd.append('باقة الاشتراك', pkg||'—');
+    fd.append('تاريخ التوقيع', sdate);
+    fd.append('message', summary);
+    fd.append('attachment', new File([blob], 'signature-'+ref+'.png', {type:'image/png'}));
+
+    const res = await fetch('https://api.web3forms.com/submit',{method:'POST',body:fd});
+    const out = await res.json();
+    if(out.success){
+      showStatus('ok','تم توقيع الاتفاقية وإرسالها بنجاح إلى '+OWNER_EMAIL+' ونسخة إلى '+email+'. رقم الاتفاقية: '+ref+'.');
+      btn.disabled=true; txt.textContent='تم الإرسال ✓';
+    }else{
+      throw new Error(out.message||'فشل الإرسال');
+    }
+  }catch(err){
+    btn.disabled=false; txt.textContent='توقيع وإرسال الاتفاقية';
+    showStatus('err','تعذّر الإرسال حاليًا. يمكنك حفظ نسخة PDF وإرسالها يدويًا إلى '+OWNER_EMAIL+'. ('+err.message+')');
+  }
+});
+</script>
+</body>
+</html>
