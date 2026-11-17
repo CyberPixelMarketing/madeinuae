@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+=====================================================================
+  HOW TO EDIT THIS SITE  ·  طريقة تعديل الموقع
+=====================================================================
+  1) CONTACT, LINKS, COLORS, FONTS → edit the CONFIG block in the
+     <script> near the top of this file. Change once, it updates
+     everywhere.  (كل البيانات في كتلة CONFIG بالأعلى — عدّلها مرة واحدة)
+  2) ARABIC TEXT → edit the I18N dictionary (search "const I18N").
+     Each line is  "English text": "النص العربي".
+     (النصوص العربية كلها في قاموس I18N — الإنجليزي يسار والعربي يمين)
+  3) ENGLISH TEXT → edit it directly in the HTML below.
+     If you change an English sentence, change its key in I18N too.
+     (إذا غيّرت جملة إنجليزية، غيّر مفتاحها في القاموس أيضًا)
+  4) IMAGES (same folder as this file) · الصور:
+       logo.png   → app logo (square, 512×512 or larger)  شعار التطبيق
+       hero.jpg   → OPTIONAL hero photo (1920×1080). Set CONFIG.heroImage
+                    to "hero.jpg" to use it.  صورة الواجهة (اختيارية)
+  5) LANGUAGE LINKS: /en and /ar open the site in that language.
+=====================================================================
+-->
+<script>
+/* ==================== CONFIG · الإعدادات ==================== */
+const CONFIG = {
+  brand:        "Made in UAE",                 // اسم العلامة (إنجليزي)
+  brandAr:      "صنع في الإمارات",             // اسم العلامة (عربي)
+  siteUrl:      "https://madeinuae-landing.vercel.app", // رابط الموقع النهائي
+  email:        "madeinuae444@gmail.com",      // البريد الإلكتروني للتواصل
+  phone:        "",                            // رقم الهاتف (اتركه فارغًا لإخفائه) مثال: +971 50 000 0000
+  whatsapp:     "",                            // رقم واتساب بدون + أو مسافات، مثال: 971500000000 — فارغ = إخفاء الزر
+  whatsappMsg:  "Hello Made in UAE, I'd like to ask about",  // نص رسالة واتساب الافتراضي
+  hours:        "",                            // ساعات العمل (فارغ = إخفاء) مثال: Sun–Thu 9:00–18:00
+  address:      "United Arab Emirates",        // العنوان (إنجليزي)
+  addressAr:    "الإمارات العربية المتحدة",     // العنوان (عربي)
+  mapQuery:     "United Arab Emirates",        // موقع الخريطة (اسم مكان أو إحداثيات "25.2048,55.2708")
+  mapZoom:      6,                             // تقريب الخريطة (6 = الدولة، 14 = حيّ)
+  appStore:     "https://apps.apple.com/ae/app/made-in-uae/id6782914328",                     // رابط آب ستور
+  googlePlay:   "https://play.google.com/store/apps/details?id=com.codingeagle.madeinuae&hl=en",  // رابط جوجل بلاي
+  contractUrl:  "https://madeinuae.vercel.app/contract.html",   // رابط اتفاقية الانضمام للبائعين
+  privacyUrl:   "",                            // رابط سياسة الخصوصية (فارغ = إخفاء)
+  heroImage:    "",                            // صورة خلفية الواجهة (اختياري) مثال: "hero.jpg"
+  social: {                                    // روابط التواصل الاجتماعي (فارغ = إخفاء الأيقونة)
+    instagram: "",
+    tiktok:    "",
+    x:         "",
+    facebook:  "",
+    linkedin:  ""
+  },
+  colors: {                                    // ألوان الهوية (مأخوذة من الشعار)
+    deep:     "#10291F",   // الأخضر الداكن — خلفيات الأقسام الداكنة
+    deepSoft: "#1A3B2D",   // أفتح قليلًا — البطاقات والتمرير
+    sand:     "#F0EDE4",   // الرملي الفاتح — خلفيات الأقسام الفاتحة
+    sandSoft: "#F7F5EF",   // أفتح قليلًا — البطاقات على الرملي
+    accent:   "#CDB27A",   // الذهبي — العناوين على الداكن والخطوط الرفيعة فقط
+    ink:      "#1C2C24"    // لون النص على الخلفية الفاتحة
+  },
+  fonts: {                                     // الخطوط (من Google Fonts)
+    display: "Playfair Display",               // خط العناوين الإنجليزية
+    body:    "Jost",                           // خط النصوص الإنجليزية
+    arabic:  "Cairo"                           // الخط العربي
+  }
+};
+/* ================== END CONFIG · نهاية الإعدادات ================== */
+
+/* apply colors + fonts before paint (لا تعدّل) */
+(function(){
+  var r=document.documentElement.style,c=CONFIG.colors,f=CONFIG.fonts;
+  r.setProperty('--deep',c.deep);r.setProperty('--deep-soft',c.deepSoft);
+  r.setProperty('--sand',c.sand);r.setProperty('--sand-soft',c.sandSoft);
+  r.setProperty('--accent',c.accent);r.setProperty('--ink',c.ink);
+  r.setProperty('--f-display',"'"+f.display+"', Georgia, serif");
+  r.setProperty('--f-body',"'"+f.body+"', system-ui, sans-serif");
+  r.setProperty('--f-ar',"'"+f.arabic+"', system-ui, sans-serif");
+  // early language detection to avoid flash
+  var p=location.pathname.toLowerCase(),l=null;
+  if(/^\/ar(\/|$)/.test(p))l='ar';else if(/^\/en(\/|$)/.test(p))l='en';
+  if(!l){try{l=localStorage.getItem('miu-lang')}catch(e){}}
+  if(!l){l=((navigator.language||'en').toLowerCase().indexOf('ar')===0)?'ar':'en'}
+  window.__LANG=l;
+  if(l==='ar'){document.documentElement.lang='ar';document.documentElement.dir='rtl'}
+})();
+</script>
+
+<title>Made in UAE App — Shop Local UAE Brands & Verified Sellers | صنع في الإمارات</title>
+<meta name="description" content="Made in UAE is the marketplace app for products made in the United Arab Emirates. Discover local brands and makers, shop verified sellers in one place, and get your order delivered to your door. Free on iPhone and Android.">
+<meta name="keywords" content="Made in UAE, made in UAE app, UAE marketplace, local UAE brands, Emirati products, shop local UAE, UAE makers, UAE online shopping app, verified sellers UAE, homegrown brands Dubai, Abu Dhabi local products, صنع في الإمارات, تطبيق صنع في الإمارات, منتجات إماراتية, منتجات محلية, سوق إلكتروني إماراتي, تسوق محلي, علامات تجارية إماراتية, بائعون موثوقون">
+<meta name="author" content="Made in UAE">
+<meta name="theme-color" content="#10291F">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://madeinuae-landing.vercel.app/">
+<link rel="alternate" hreflang="en" href="https://madeinuae-landing.vercel.app/en">
+<link rel="alternate" hreflang="ar" href="https://madeinuae-landing.vercel.app/ar">
+<link rel="alternate" hreflang="x-default" href="https://madeinuae-landing.vercel.app/">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<meta name="apple-itunes-app" content="app-id=6782914328">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Made in UAE · صنع في الإمارات">
+<meta property="og:title" content="Made in UAE — The marketplace for products made in the UAE">
+<meta property="og:description" content="Discover local brands and makers, shop verified sellers in one place, and get your order delivered to your door. Free on iPhone and Android.">
+<meta property="og:url" content="https://madeinuae-landing.vercel.app/">
+<meta property="og:image" content="https://madeinuae-landing.vercel.app/logo.png">
+<meta property="og:locale" content="en_AE">
+<meta property="og:locale:alternate" content="ar_AE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Made in UAE — Shop local UAE brands">
+<meta name="twitter:description" content="The marketplace app for products made in the United Arab Emirates. صنع في الإمارات.">
+<meta name="twitter:image" content="https://madeinuae-landing.vercel.app/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@300;400;500&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"Organization","@id":"https://madeinuae-landing.vercel.app/#org","name":"Made in UAE","alternateName":"صنع في الإمارات","url":"https://madeinuae-landing.vercel.app/","logo":"https://madeinuae-landing.vercel.app/logo.png","email":"madeinuae444@gmail.com","areaServed":{"@type":"Country","name":"United Arab Emirates"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"madeinuae444@gmail.com","availableLanguage":["English","Arabic"]}},
+    {"@type":"MobileApplication","name":"Made in UAE","alternateName":"صنع في الإمارات","operatingSystem":"iOS 16.4+, Android","applicationCategory":"ShoppingApplication","inLanguage":["en","ar"],"description":"A marketplace for products made in the United Arab Emirates. Discover local brands and makers, shop from verified sellers in one place, and get your order delivered to your door.","offers":{"@type":"Offer","price":"0","priceCurrency":"AED"},"installUrl":["https://apps.apple.com/ae/app/made-in-uae/id6782914328","https://play.google.com/store/apps/details?id=com.codingeagle.madeinuae"],"publisher":{"@id":"https://madeinuae-landing.vercel.app/#org"}},
+    {"@type":"WebSite","name":"Made in UAE","url":"https://madeinuae-landing.vercel.app/","inLanguage":["en","ar"]},
+    {"@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"What is Made in UAE?","acceptedAnswer":{"@type":"Answer","text":"Made in UAE is a marketplace app for products made in the United Arab Emirates. You can discover local brands and makers, shop from verified sellers in one place, and get your order delivered to your door."}},
+      {"@type":"Question","name":"Is the app free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Made in UAE is free to download on the App Store and Google Play."}},
+      {"@type":"Question","name":"Which devices does it work on?","acceptedAnswer":{"@type":"Answer","text":"iPhone (iOS 16.4 or later) and Android phones."}},
+      {"@type":"Question","name":"Is the app available in Arabic?","acceptedAnswer":{"@type":"Answer","text":"Yes. The app works fully in English and Arabic, with right-to-left support."}},
+      {"@type":"Question","name":"How do I sign in?","acceptedAnswer":{"@type":"Answer","text":"With your phone number and a one-time code. No password to remember."}},
+      {"@type":"Question","name":"How do I sell on Made in UAE?","acceptedAnswer":{"@type":"Answer","text":"Read and sign the joining contract online, then our team activates your seller page."}},
+      {"@type":"Question","name":"What does it cost to join as a seller?","acceptedAnswer":{"@type":"Answer","text":"The first three months are free. After that, the subscription fee of the package you choose applies, plus VAT."}},
+      {"@type":"Question","name":"Can a seller leave the platform?","acceptedAnswer":{"@type":"Answer","text":"Yes. If you are not satisfied during the first three months, you can leave with no exit fees or penalties."}},
+      {"@type":"Question","name":"How are sellers paid?","acceptedAnswer":{"@type":"Answer","text":"Payouts are transferred to each seller's account weekly."}}
+    ]}
+  ]
+}
+</script>
+
+<style>
+/* ===================== TOKENS ===================== */
+:root{
+  --deep:#10291F;--deep-soft:#1A3B2D;--sand:#F0EDE4;--sand-soft:#F7F5EF;--accent:#CDB27A;--ink:#1C2C24;
+  --f-display:'Playfair Display',Georgia,serif;--f-body:'Jost',system-ui,sans-serif;--f-ar:'Cairo',system-ui,sans-serif;
+  --r-big:28px;
+  --r-primary:var(--r-big) var(--r-big) 8px var(--r-big);
+  --r-mirror:var(--r-big) var(--r-big) var(--r-big) 8px;
+  --r-card-a:32px 8px 32px 8px;--r-card-b:8px 32px 8px 32px;
+  --r-pill:999px 999px 12px 999px;
+  --r-img:24px 24px 24px 4px;
+  --pad-x:24px;--sec-y:80px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --shadow:0 24px 60px rgba(0,0,0,.10);
+}
+[dir="rtl"]{
+  --r-primary:var(--r-big) var(--r-big) var(--r-big) 8px;
+  --r-mirror:var(--r-big) var(--r-big) 8px var(--r-big);
+  --r-card-a:8px 32px 8px 32px;--r-card-b:32px 8px 32px 8px;
+  --r-pill:999px 999px 999px 12px;
+  --r-img:24px 24px 4px 24px;
+}
+@media(min-width:768px){:root{--pad-x:48px;--sec-y:120px;--r-big:48px}}
+@media(min-width:1024px){:root{--pad-x:80px;--sec-y:160px}}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--sand);color:var(--ink);font-family:var(--f-body);font-weight:300;font-size:1rem;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+[dir="rtl"] body{font-family:var(--f-ar);font-weight:400}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:16px;top:8px;transform:translateY(-200%);z-index:200;background:var(--sand);color:var(--deep);padding:8px 16px;border-radius:var(--r-pill)}
+.skip:focus{transform:none}
+
+/* ===================== TYPE ===================== */
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad-x)}
+h1,h2{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.015em;line-height:1.02;margin:0;font-weight:600}
+h1{font-size:clamp(2.6rem,7vw,5.5rem)}
+h2{font-size:clamp(2rem,4.5vw,3.5rem)}
+h3{font-family:var(--f-body);font-weight:500;font-size:1.25rem;line-height:1.35;margin:0}
+[dir="rtl"] h1,[dir="rtl"] h2{font-family:var(--f-ar);font-weight:700;letter-spacing:0;line-height:1.25;text-transform:none}
+[dir="rtl"] h1{font-size:clamp(2.4rem,6.4vw,5rem)}
+[dir="rtl"] h3{font-family:var(--f-ar);font-weight:600}
+p{margin:0}
+.caps,.btn,.eyebrow,.nav-link,.label{text-transform:uppercase;letter-spacing:.16em;font-weight:500;font-size:.75rem;font-family:var(--f-body)}
+[dir="rtl"] .caps,[dir="rtl"] .btn,[dir="rtl"] .eyebrow,[dir="rtl"] .label{font-family:var(--f-ar);letter-spacing:0;font-size:.875rem;font-weight:600}
+
+/* ===================== SECTIONS ===================== */
+section{position:relative;padding:var(--sec-y) 0}
+.dark{background:var(--deep);color:rgba(240,237,228,.84)}
+.dark h1,.dark h2{color:var(--accent);background:linear-gradient(180deg,var(--accent),#E6D5AE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.dark h3{color:var(--sand)}
+.light{background:var(--sand);color:rgba(28,44,36,.84)}
+.light h2{color:var(--deep)}
+.light h3{color:var(--deep)}
+.grain::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.sec-head{text-align:center;max-width:760px;margin:0 auto 48px}
+.eyebrow{color:var(--accent);display:block;margin-bottom:16px}
+.light .eyebrow{color:#7A6232}
+.sec-head p{margin:20px auto 0;max-width:60ch;opacity:.85;font-size:1.0625rem}
+.rule{width:160px;height:1px;background:var(--accent);opacity:.4;margin:28px auto 0;border:0}
+.star{display:block;margin:20px auto 0;width:14px;height:14px;color:var(--accent)}
+
+/* ===================== BUTTONS ===================== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:14px 28px;border-radius:var(--r-pill);text-decoration:none;transition:background .3s ease-out,color .3s ease-out,border-color .3s ease-out,transform .3s ease-out;white-space:nowrap}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-sand{background:var(--sand);color:var(--deep)}
+.btn-sand:hover{background:#fff8ea}
+.btn-line{border:1px solid rgba(240,237,228,.7);color:var(--sand)}
+.btn-line:hover{background:var(--sand);color:var(--deep)}
+.btn-deep{background:var(--deep);color:var(--sand)}
+.btn-deep:hover{background:var(--deep-soft)}
+.btn-line-deep{border:1px solid rgba(16,41,31,.45);color:var(--deep)}
+.btn-line-deep:hover{background:var(--deep);color:var(--sand)}
+.btn .sub{display:block;font-size:.625rem;opacity:.7;letter-spacing:.14em;line-height:1}
+.btn .stack{display:flex;flex-direction:column;align-items:flex-start;gap:4px;line-height:1}
+[dir="rtl"] .btn .stack{align-items:flex-end}
+[dir="rtl"] .btn .sub{font-size:.7rem;letter-spacing:0}
+
+/* ===================== HEADER ===================== */
+.hdr{position:fixed;inset:0 0 auto;z-index:60;transition:background .3s,border-color .3s;border-bottom:1px solid transparent;background:linear-gradient(180deg,rgba(10,26,20,.55),rgba(10,26,20,0))}
+.hdr.solid{background:var(--deep);border-bottom-color:rgba(205,178,122,.15)}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--sand)}
+.brand img{width:40px;height:40px;border-radius:10px}
+.brand .wm{font-family:var(--f-body);text-transform:uppercase;letter-spacing:.22em;font-weight:400;font-size:.8125rem;color:var(--accent)}
+[dir="rtl"] .brand .wm{font-family:var(--f-ar);letter-spacing:0;font-size:1rem;font-weight:600}
+.hdr-tools{display:flex;align-items:center;gap:8px}
+.lang-btn{color:var(--sand);min-width:48px;min-height:48px;padding:0 8px;font-size:.75rem;letter-spacing:.18em;font-weight:500;font-family:var(--f-body)}
+.lang-btn .ar{font-family:var(--f-ar);letter-spacing:0;font-size:.95rem}
+.burger{width:48px;height:48px;display:grid;place-items:center}
+.burger span{display:block;width:24px;height:1.5px;background:var(--sand);margin:3px 0;transition:transform .3s,opacity .3s}
+.burger .lines{display:flex;flex-direction:column}
+.menu-open .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0}
+.menu-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.hdr-cta{display:none}
+@media(min-width:1024px){.hdr-cta{display:inline-flex;min-height:44px;padding:10px 22px}}
+
+.menu{position:fixed;inset:0;z-index:55;background:var(--deep);display:flex;flex-direction:column;justify-content:center;padding:96px var(--pad-x) 48px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.menu-open .menu{opacity:1;visibility:visible}
+.menu nav{display:flex;flex-direction:column;gap:12px;max-width:1280px;margin:0 auto;width:100%}
+.menu a.mlink{font-family:var(--f-display);text-transform:uppercase;font-size:clamp(2rem,6vw,3.25rem);line-height:1.15;color:var(--accent);text-decoration:none;opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease),color .25s}
+[dir="rtl"] .menu a.mlink{font-family:var(--f-ar);font-weight:700}
+.menu a.mlink:hover{color:var(--sand)}
+.menu-open .menu a.mlink{opacity:1;transform:none}
+.menu .mfoot{max-width:1280px;margin:40px auto 0;width:100%;display:flex;flex-wrap:wrap;gap:12px}
+
+/* ===================== HERO ===================== */
+.hero{min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:120px 0 96px;background:var(--deep)}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.8);animation:slowzoom 20s ease-out forwards}
+.hero-bg.noimg{background:radial-gradient(80% 60% at 50% 35%,var(--deep-soft),var(--deep) 70%)}
+@keyframes slowzoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(16,41,31,.55),rgba(16,41,31,.25) 45%,rgba(16,41,31,.75))}
+.hero-ring{position:absolute;left:50%;top:44%;width:min(120vw,900px);aspect-ratio:1;transform:translate(-50%,-50%);color:var(--accent);opacity:.12;pointer-events:none}
+.skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;color:var(--accent);opacity:.28;pointer-events:none}
+.hero .wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.hero-logo{width:96px;height:96px;border-radius:24px;margin-bottom:28px;box-shadow:var(--shadow)}
+.hero p.lead{color:var(--sand);opacity:.88;max-width:34rem;margin:24px auto 0;font-size:1.0625rem}
+.hero-ctas{display:flex;flex-direction:column;gap:12px;margin-top:36px;width:100%;max-width:340px}
+@media(min-width:600px){.hero-ctas{flex-direction:row;max-width:none;width:auto}}
+.hero-meta{margin-top:28px;color:var(--sand);opacity:.6}
+.scroll-cue{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;width:1px;height:48px;background:linear-gradient(var(--accent),transparent);opacity:.6}
+
+/* ===================== CHIP MARQUEE ===================== */
+.marquee{position:relative;overflow:hidden;margin:0 calc(var(--pad-x) * -1) 56px;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;gap:12px;width:max-content;animation:mq 40s linear infinite;padding:4px 0}
+.marquee:hover .marquee-track{animation-play-state:paused}
+[dir="rtl"] .marquee-track{animation-name:mqr}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes mqr{to{transform:translateX(50%)}}
+.chip{display:flex;align-items:center;gap:10px;padding:8px 20px 8px 8px;border-radius:var(--r-pill);background:var(--sand-soft);border:1px solid rgba(16,41,31,.1);color:var(--deep);white-space:nowrap}
+[dir="rtl"] .chip{padding:8px 8px 8px 20px}
+.chip i{width:36px;height:36px;border-radius:50%;background:var(--deep);display:grid;place-items:center;color:var(--sand)}
+.chip svg{width:18px;height:18px}
+
+/* ===================== NUMBERED CARDS ===================== */
+.grid4{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:600px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.grid4{grid-template-columns:repeat(4,1fr);gap:24px}}
+.ncard{position:relative;padding:32px 28px 32px;border-radius:var(--r-card-a);background:linear-gradient(180deg,var(--deep),var(--deep-soft));color:rgba(240,237,228,.72);transition:transform .3s ease-out,filter .3s ease-out;min-height:260px;display:flex;flex-direction:column}
+.ncard:nth-child(even){border-radius:var(--r-card-b)}
+.ncard:hover{transform:translateY(-4px);filter:brightness(1.12)}
+.ncard .num{font-family:var(--f-display);font-size:2.5rem;line-height:1;color:rgba(240,237,228,.45);margin-bottom:28px}
+.ncard .orn{position:absolute;top:28px;inset-inline-end:28px;width:40px;height:12px;color:var(--accent)}
+.ncard h3{color:var(--sand);margin-bottom:10px}
+.ncard p{font-size:.9375rem;line-height:1.65}
+
+/* ===================== SPEC STRIP ===================== */
+.spec{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 16px;margin-top:88px;text-align:center}
+@media(min-width:900px){.spec{grid-template-columns:repeat(4,1fr)}}
+.spec-item i{width:56px;height:56px;border-radius:50%;background:var(--deep);color:var(--sand);display:grid;place-items:center;margin:0 auto 16px}
+.spec-item i svg{width:24px;height:24px}
+.spec-item b{display:block;color:var(--deep);font-weight:500;font-size:1.125rem}
+.spec-item span{display:block;font-size:.9375rem;opacity:.75;margin-top:4px}
+.spec-item hr{width:120px;max-width:70%;height:1px;border:0;background:var(--deep);opacity:.15;margin:18px auto 0}
+
+/* ===================== SHOWCASE (dark list) ===================== */
+.show{display:grid;gap:40px;align-items:center}
+@media(min-width:960px){.show{grid-template-columns:1.1fr .9fr;gap:64px}}
+.list-card{position:relative;background:var(--deep-soft);border-radius:var(--r-primary);padding:56px 20px 24px;border:1px solid rgba(205,178,122,.12)}
+@media(min-width:768px){.list-card{padding:72px 40px 40px}}
+.list-card .ghost{position:absolute;top:16px;inset-inline-end:28px;font-family:var(--f-display);font-size:4rem;line-height:1;color:rgba(240,237,228,.12)}
+.list-card .orn-tl{position:absolute;top:28px;inset-inline-start:28px;width:16px;height:16px;color:var(--accent)}
+.rows{list-style:none;margin:0;padding:0}
+.rows li+li{border-top:1px solid rgba(240,237,228,.12)}
+.row-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;text-align:start;color:var(--sand);text-transform:uppercase;letter-spacing:.16em;font-size:.8125rem;font-weight:500;min-height:56px;transition:background .25s,color .25s}
+[dir="rtl"] .row-btn{letter-spacing:0;font-size:1rem;font-family:var(--f-ar);font-weight:600}
+.row-btn .n{font-family:var(--f-display);letter-spacing:0;opacity:.5;font-size:.9rem}
+.row-btn[aria-selected="true"]{background:var(--sand);color:var(--deep);border-radius:var(--r-pill)}
+.row-desc{margin-top:28px;min-height:5.2em;color:rgba(240,237,228,.8);transition:opacity .25s}
+.row-desc h3{color:var(--sand);margin-bottom:8px}
+.fade-out{opacity:0}
+
+/* Phone mockup */
+.phone-stage{display:flex;justify-content:center}
+.phone{position:relative;width:min(300px,78vw);aspect-ratio:9/19;border-radius:44px;background:#0B1D16;padding:10px;box-shadow:var(--shadow),inset 0 0 0 1px rgba(205,178,122,.25)}
+.phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:84px;height:24px;border-radius:14px;background:#0B1D16;z-index:3}
+.screen{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;background:var(--sand-soft);color:var(--ink);font-size:11px;line-height:1.35}
+.scr{position:absolute;inset:0;padding:52px 14px 14px;display:flex;flex-direction:column;gap:10px;opacity:0;transition:opacity .25s ease}
+.scr.on{opacity:1}
+.s-top{display:flex;align-items:center;justify-content:space-between}
+.s-top b{font-size:14px;color:var(--deep);font-weight:600}
+.s-ic{width:26px;height:26px;border-radius:50%;border:1px solid rgba(16,41,31,.2);display:grid;place-items:center;color:var(--deep)}
+.s-ic svg{width:13px;height:13px}
+.s-search{height:34px;border-radius:999px;background:#fff;border:1px solid rgba(16,41,31,.1);display:flex;align-items:center;gap:8px;padding:0 12px;color:rgba(28,44,36,.55)}
+.s-search svg{width:13px;height:13px}
+.s-banner{border-radius:16px 16px 16px 4px;background:linear-gradient(135deg,var(--deep),var(--deep-soft));color:var(--sand);padding:14px;position:relative;overflow:hidden}
+[dir="rtl"] .s-banner{border-radius:16px 16px 4px 16px}
+.s-banner b{display:block;color:var(--accent);font-size:13px;margin-bottom:2px}
+.s-banner svg{position:absolute;inset-inline-end:-6px;bottom:-4px;width:110px;color:var(--accent);opacity:.35}
+.s-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;font-size:9.5px}
+.s-cats div i{display:grid;place-items:center;width:100%;aspect-ratio:1;border-radius:14px;background:#fff;border:1px solid rgba(16,41,31,.08);color:var(--deep);margin-bottom:4px}
+.s-cats svg{width:18px;height:18px}
+.s-h{font-weight:600;color:var(--deep);font-size:12px;display:flex;justify-content:space-between}
+.s-h span{font-weight:400;opacity:.6;font-size:10px}
+.s-prods{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.s-prod{background:#fff;border-radius:12px;padding:6px;border:1px solid rgba(16,41,31,.06)}
+.s-prod .ph{aspect-ratio:1.15;border-radius:9px;margin-bottom:6px;display:grid;place-items:center;color:rgba(16,41,31,.35)}
+.s-prod .ph svg{width:28px;height:28px}
+.s-prod b{display:block;font-size:10px;font-weight:600;color:var(--deep)}
+.s-prod span{font-size:9.5px;opacity:.7}
+.t1{background:#E6DFCD}.t2{background:#DCE4DA}.t3{background:#EDE3D3}.t4{background:#E2E6DE}
+.s-seller{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:10px;border:1px solid rgba(16,41,31,.06)}
+.s-av{width:40px;height:40px;border-radius:50%;background:var(--deep);color:var(--accent);display:grid;place-items:center;flex:none}
+.s-av svg{width:18px;height:18px}
+.s-seller b{display:block;color:var(--deep);font-size:11.5px}
+.s-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;color:#2E6B4A}
+.s-badge svg{width:10px;height:10px}
+.s-row{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:8px;border:1px solid rgba(16,41,31,.06)}
+.s-row .ph{width:44px;height:44px;border-radius:9px;flex:none;display:grid;place-items:center;color:rgba(16,41,31,.35)}
+.s-row .ph svg{width:20px;height:20px}
+.s-row .tx{flex:1;min-width:0}
+.s-row b{display:block;font-size:10.5px;color:var(--deep)}
+.s-row span{font-size:9.5px;opacity:.7}
+.s-heart{color:#8E3B33}
+.s-heart svg{width:14px;height:14px}
+.s-track{display:flex;flex-direction:column;gap:0;background:#fff;border-radius:14px;padding:12px;border:1px solid rgba(16,41,31,.06)}
+.s-step{display:flex;gap:10px;align-items:flex-start;position:relative;padding-bottom:12px}
+.s-step:last-child{padding-bottom:0}
+.s-step i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--deep);flex:none;margin-top:1px;background:#fff;position:relative;z-index:1}
+.s-step.done i{background:var(--deep)}
+.s-step:not(:last-child)::after{content:"";position:absolute;inset-inline-start:6.5px;top:15px;bottom:0;width:1px;background:rgba(16,41,31,.25)}
+.s-step b{display:block;font-size:10.5px;color:var(--deep)}
+.s-step span{font-size:9.5px;opacity:.65}
+.s-btn{margin-top:auto;height:38px;border-radius:999px 999px 10px 999px;background:var(--deep);color:var(--sand);display:grid;place-items:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+[dir="rtl"] .s-btn{border-radius:999px 999px 999px 10px;letter-spacing:0;font-size:11px}
+.s-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.s-tabs span{padding:4px 10px;border-radius:999px;border:1px solid rgba(16,41,31,.15);font-size:9.5px}
+.s-tabs span.on{background:var(--deep);color:var(--sand);border-color:var(--deep)}
+
+/* ===================== SELLER ===================== */
+.perks{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:700px){.perks{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.perks{grid-template-columns:repeat(3,1fr)}}
+.perk{background:var(--sand-soft);border:1px solid rgba(16,41,31,.08);border-radius:var(--r-card-a);padding:28px;display:flex;gap:16px;align-items:flex-start;transition:transform .3s ease-out}
+.perk:nth-child(even){border-radius:var(--r-card-b)}
+.perk:hover{transform:translateY(-4px)}
+.perk i{width:44px;height:44px;border-radius:50%;background:var(--deep);color:var(--sand);display:grid;place-items:center;flex:none}
+.perk i svg{width:20px;height:20px}
+.perk h3{font-size:1.125rem;margin-bottom:4px}
+.perk p{font-size:.9375rem}
+.seller-ctas{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:48px}
+@media(min-width:600px){.seller-ctas{flex-direction:row;justify-content:center}}
+.more{max-width:820px;margin:40px auto 0;text-align:center}
+.more-btn{display:inline-flex;align-items:center;gap:10px;color:var(--deep);min-height:48px}
+.more-btn svg{width:16px;height:16px;transition:transform .3s}
+.more-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.more-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.more-panel.open{grid-template-rows:1fr}
+.more-panel>div{overflow:hidden}
+.terms{text-align:start;margin:16px 0 0;padding:28px;background:var(--sand-soft);border-radius:var(--r-mirror);border:1px solid rgba(16,41,31,.08);list-style:none;display:grid;gap:14px}
+.terms li{display:flex;gap:12px;font-size:.9375rem}
+.terms li svg{width:18px;height:18px;flex:none;margin-top:4px;color:var(--deep)}
+.terms li b{color:var(--deep);font-weight:500}
+
+/* ===================== CTA BAND ===================== */
+.band{text-align:center;padding:160px 0}
+.band p{max-width:44ch;margin:20px auto 0;font-size:1.0625rem}
+.band .btn-wide{width:100%;max-width:640px;margin:44px auto 0;min-height:64px;border-radius:var(--r-pill)}
+.band .alt{display:flex;justify-content:center;gap:28px;margin-top:24px;flex-wrap:wrap}
+.band .alt a{text-decoration:none;color:var(--sand);opacity:.75;display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.band .alt a:hover{opacity:1}
+.band .alt svg{width:18px;height:18px}
+
+/* ===================== FAQ ===================== */
+.faq{max-width:860px;margin:0 auto}
+.faq-item{border-bottom:1px solid rgba(16,41,31,.15)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;text-align:start;color:var(--deep);font-size:1.125rem;font-weight:500;min-height:64px}
+[dir="rtl"] .faq-q{font-weight:600}
+.faq-q svg{width:20px;height:20px;flex:none;transition:transform .3s}
+.faq-q[aria-expanded="true"] svg{transform:rotate(45deg)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
+.faq-a.open{grid-template-rows:1fr}
+.faq-a>div{overflow:hidden}
+.faq-a p{padding:0 0 24px;max-width:64ch}
+
+/* ===================== CONTACT ===================== */
+.contact-grid{display:grid;gap:40px}
+@media(min-width:960px){.contact-grid{grid-template-columns:1fr 1fr;gap:56px}}
+.c-list{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:18px}
+.c-list li{display:flex;gap:16px;align-items:center}
+.c-list i{width:48px;height:48px;border-radius:50%;border:1px solid rgba(205,178,122,.45);color:var(--accent);display:grid;place-items:center;flex:none}
+.c-list i svg{width:20px;height:20px}
+.c-list a{text-decoration:none;color:var(--sand);word-break:break-word}
+.c-list a:hover{color:var(--accent)}
+.c-list .label{display:block;color:rgba(240,237,228,.6);font-size:.6875rem;margin-bottom:2px}
+.map{border-radius:var(--r-img);overflow:hidden;aspect-ratio:4/3;background:var(--deep-soft);border:1px solid rgba(205,178,122,.15)}
+.map iframe{width:100%;height:100%;border:0;filter:grayscale(.35) contrast(.95)}
+form.cform{display:grid;gap:16px;background:var(--deep-soft);padding:28px 20px;border-radius:var(--r-mirror);border:1px solid rgba(205,178,122,.12)}
+@media(min-width:768px){form.cform{padding:40px}}
+.field{display:grid;gap:8px}
+.field label{color:rgba(240,237,228,.7)}
+.field input,.field textarea,.field select{width:100%;font:inherit;font-size:1rem;color:var(--sand);background:transparent;border:0;border-bottom:1px solid rgba(240,237,228,.3);padding:10px 2px;min-height:48px;border-radius:0;transition:border-color .25s}
+.field select option{color:var(--ink)}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-bottom-color:var(--accent)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(240,237,228,.4)}
+.form-note{font-size:.875rem;opacity:.7}
+
+/* ===================== FOOTER ===================== */
+footer{background:var(--sand);color:rgba(28,44,36,.8);padding:96px 0 40px;position:relative}
+.f-top{display:grid;gap:40px}
+@media(min-width:900px){.f-top{grid-template-columns:1.4fr 1fr 1fr;align-items:start}}
+.f-wm{font-family:var(--f-display);text-transform:uppercase;color:var(--deep);font-size:clamp(2.4rem,7vw,4.5rem);line-height:1;letter-spacing:.02em}
+[dir="rtl"] .f-wm{font-family:var(--f-ar);font-weight:700}
+.f-wm small{display:block;font-family:var(--f-ar);text-transform:none;font-size:.4em;letter-spacing:0;margin-top:12px;opacity:.75}
+[dir="rtl"] .f-wm small{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.1em}
+.f-col h4{margin:0 0 16px;color:var(--deep)}
+.f-col ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.f-col a{text-decoration:none}
+.f-col a:hover{color:var(--deep)}
+.f-ic{display:flex;gap:12px;align-items:center}
+.f-ic svg{width:20px;height:20px;color:var(--deep);flex:none}
+.socials{display:flex;gap:8px;margin-top:20px}
+.socials a{width:44px;height:44px;border-radius:50%;border:1px solid rgba(16,41,31,.2);display:grid;place-items:center;color:var(--deep);transition:background .25s,color .25s}
+.socials a:hover{background:var(--deep);color:var(--sand)}
+.socials svg{width:20px;height:20px}
+.f-bottom{margin-top:64px;padding-top:24px;border-top:1px solid rgba(16,41,31,.15);display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;font-size:.75rem}
+.f-bottom a{text-decoration:none}
+.f-bottom .caps{font-size:.6875rem}
+
+/* ===================== FLOATING ===================== */
+.float-cta{position:fixed;z-index:50;bottom:20px;left:50%;transform:translate(-50%,24px);opacity:0;visibility:hidden;transition:opacity .35s,transform .35s var(--ease),visibility .35s,background .3s,color .3s;box-shadow:var(--shadow);min-height:52px;padding:12px 26px}
+.float-cta.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.float-cta.on-dark{background:var(--sand);color:var(--deep)}
+.float-cta.on-light{background:var(--deep);color:var(--sand)}
+.wa{position:fixed;z-index:51;bottom:20px;inset-inline-end:16px;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--deep);color:var(--sand);box-shadow:var(--shadow);border:1px solid rgba(205,178,122,.35);transition:transform .3s}
+.wa:hover{transform:translateY(-3px)}
+.wa svg{width:26px;height:26px}
+.has-wa .float-cta{bottom:88px}
+@media(min-width:768px){
+  .float-cta{left:auto;right:24px;transform:translateY(24px)}
+  .float-cta.show{transform:none}
+  [dir="rtl"] .float-cta{right:auto;left:24px}
+  .has-wa .float-cta{bottom:20px;right:96px}
+  [dir="rtl"] .has-wa .float-cta{right:auto;left:96px}
+  .wa{inset-inline-end:24px}
+}
+
+/* ===================== CONTRACT VIEWER ===================== */
+.viewer{position:fixed;inset:0;z-index:90;background:rgba(10,26,20,.7);display:flex;align-items:flex-end;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.viewer.open{opacity:1;visibility:visible}
+.viewer-box{width:100%;max-width:980px;height:92svh;background:var(--sand);border-radius:28px 28px 0 0;display:flex;flex-direction:column;overflow:hidden;transform:translateY(24px);transition:transform .4s var(--ease)}
+.viewer.open .viewer-box{transform:none}
+@media(min-width:768px){.viewer{align-items:center}.viewer-box{height:88vh;border-radius:var(--r-primary)}}
+.viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px 12px 24px;background:var(--deep);color:var(--sand)}
+[dir="rtl"] .viewer-bar{padding:12px 24px 12px 16px}
+.viewer-bar .t{color:var(--accent)}
+.viewer-bar .acts{display:flex;gap:4px;align-items:center}
+.viewer-bar a,.viewer-bar button{min-width:44px;min-height:44px;display:grid;place-items:center;color:var(--sand);text-decoration:none}
+.viewer-bar svg{width:20px;height:20px}
+.viewer iframe{flex:1;width:100%;border:0;background:#fff}
+
+/* ===================== REVEAL ===================== */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{transform:none!important}
+  .hero-bg{animation:none}
+  .marquee-track{animation:none}
+  .ncard:hover,.perk:hover,.wa:hover{transform:none}
+  .menu a.mlink{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n>Skip to content</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Made in UAE — home">
+      <img src="logo.png" alt="Made in UAE logo" width="40" height="40">
+      <span class="wm" data-i18n>Made in UAE</span>
+    </a>
+    <div class="hdr-tools">
+      <a class="btn btn-sand hdr-cta js-get" href="#download" data-i18n>Get the app</a>
+      <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language"><span class="en-l">EN</span> / <span class="ar">ع</span></button>
+      <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span class="lines"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Main">
+    <a class="mlink" href="#features" data-i18n>Why the app</a>
+    <a class="mlink" href="#inside" data-i18n>Inside the app</a>
+    <a class="mlink" href="#sellers" data-i18n>Sell with us</a>
+    <a class="mlink" href="#download" data-i18n>Download</a>
+    <a class="mlink" href="#faq" data-i18n>FAQ</a>
+    <a class="mlink" href="#contact" data-i18n>Contact</a>
+  </nav>
+  <div class="mfoot">
+    <a class="btn btn-sand js-appstore" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 6 18M12 4l6 14M4 14h16"/></svg><span>App Store</span></a>
+    <a class="btn btn-line js-play" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5v17l13-8.5z"/></svg><span>Google Play</span></a>
+  </div>
+</div>
+
+<main id="main">
+<!-- ===================== HERO ===================== -->
+<section class="hero dark" id="top">
+  <div class="hero-bg noimg" id="heroBg" aria-hidden="true"></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <svg class="hero-ring" viewBox="0 0 200 200" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="100" cy="100" r="96" stroke-width=".6"/><circle cx="100" cy="100" r="90" stroke-width=".3"/></svg>
+  <svg class="skyline" viewBox="0 0 1440 160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0 158H1440M120 158V120h30v38M170 158V96h22v62M210 158v-48h40v48M300 158V70h18v88M309 70V40M340 158v-70l20-14 20 14v70M420 158v-56h34v56M520 158V60c0-12 10-22 22-22s22 10 22 22v98M600 158v-46h26v46M660 158V84h30v74M720 158V4l6 12v12l6 10v120M760 158V30l14-18 14 18v128M830 158V90h24v68M880 158v-40c20-30 60-30 80 0v40M1000 158V76h20v82M1040 158V52l18-10 18 10v106M1110 158v-62h40v62M1190 158V88h16v70M1230 158v-36h46v36M1310 158V98h28v60"/>
+  </svg>
+  <div class="wrap">
+    <img class="hero-logo rv" src="logo.png" alt="Made in UAE app icon" width="96" height="96">
+    <span class="eyebrow rv" data-i18n>The marketplace for UAE-made products</span>
+    <h1 class="rv" data-i18n>Proudly local.<br>One app away.</h1>
+    <p class="lead rv" data-i18n>Discover local brands and makers, shop from verified sellers in one place, and get your order delivered to your door.</p>
+    <div class="hero-ctas rv">
+      <a class="btn btn-sand js-appstore" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 6 18M12 4l6 14M4 14h16"/></svg>
+        <span class="stack"><span class="sub" data-i18n>Download on the</span><span>App Store</span></span>
+      </a>
+      <a class="btn btn-line js-play" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5v17l13-8.5z"/></svg>
+        <span class="stack"><span class="sub" data-i18n>Get it on</span><span>Google Play</span></span>
+      </a>
+    </div>
+    <span class="caps hero-meta rv" data-i18n>Free · iPhone & Android · English & Arabic</span>
+  </div>
+  <span class="scroll-cue" aria-hidden="true"></span>
+</section>
+
+<!-- ===================== FEATURES (light) ===================== -->
+<section class="light grain" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow rv" data-i18n>Why Made in UAE</span>
+      <h2 class="rv" data-i18n>Local makers.<br>One marketplace.</h2>
+      <p class="rv" data-i18n>Everything made in the Emirates, gathered in a single app, from homegrown brands to small makers you won't find anywhere else.</p>
+      <hr class="rule rv">
+    </div>
+
+    <div class="marquee rv" aria-label="Highlights">
+      <div class="marquee-track" id="chips">
+        <!-- chips are duplicated by script for a seamless loop -->
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1 11H5zM8 9V7a4 4 0 0 1 8 0v2"/></svg></i><span data-i18n>Local brands</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></i><span data-i18n>Verified sellers</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg></i><span data-i18n>Delivered to your door</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3"/></svg></i><span data-i18n>English & Arabic</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg></i><span data-i18n>Search everything</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></i><span data-i18n>Save favorites</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9l5 3"/><circle cx="12" cy="12" r="9"/></svg></i><span data-i18n>Order tracking</span></span>
+        <span class="chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></i><span data-i18n>Phone sign-in</span></span>
+      </div>
+    </div>
+
+    <div class="grid4">
+      <!-- FEATURE CARD — copy a whole <article> to add one, delete to remove · انسخ البطاقة للإضافة أو احذفها -->
+      <article class="ncard rv">
+        <svg class="orn" viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M0 6h28M34 6h6"/></svg>
+        <span class="num">01</span>
+        <h3 data-i18n>Discover local brands</h3>
+        <p data-i18n>Browse by category and find homegrown brands and makers from across the seven emirates.</p>
+      </article>
+      <article class="ncard rv">
+        <svg class="orn" viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M0 6h28M34 6h6"/></svg>
+        <span class="num">02</span>
+        <h3 data-i18n>Shop verified sellers</h3>
+        <p data-i18n>Every seller is verified, and each has a profile so you know exactly who made what you buy.</p>
+      </article>
+      <article class="ncard rv">
+        <svg class="orn" viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M0 6h28M34 6h6"/></svg>
+        <span class="num">03</span>
+        <h3 data-i18n>One cart, one checkout</h3>
+        <p data-i18n>Add products from different local sellers to a single cart and check out in a few taps.</p>
+      </article>
+      <article class="ncard rv">
+        <svg class="orn" viewBox="0 0 40 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M0 6h28M34 6h6"/></svg>
+        <span class="num">04</span>
+        <h3 data-i18n>Delivered to your door</h3>
+        <p data-i18n>Follow your order from confirmation to delivery, right inside the app.</p>
+      </article>
+    </div>
+
+    <div class="spec">
+      <div class="spec-item rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></i><b data-i18n>Free download</b><span data-i18n>No cost to install</span><hr></div>
+      <div class="spec-item rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></i><b data-i18n>iPhone & Android</b><span data-i18n>iOS 16.4 or later</span><hr></div>
+      <div class="spec-item rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8M8 3v2M6 5c0 4 2 7 5 8M10 5c0 3-2 6-6 8M13 20l4-9 4 9M14.5 17h5"/></svg></i><b data-i18n>Two languages</b><span data-i18n>English & العربية</span><hr></div>
+      <div class="spec-item rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v2"/></svg></i><b data-i18n>Easy sign-in</b><span data-i18n>Phone number + one-time code</span><hr></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INSIDE THE APP (dark) ===================== -->
+<section class="dark" id="inside">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow rv" data-i18n>Inside the app</span>
+      <h2 class="rv" data-i18n>Made for the way<br>you shop</h2>
+      <p class="rv" data-i18n>Tap a feature to see it on screen.</p>
+    </div>
+    <div class="show">
+      <div class="list-card rv">
+        <span class="ghost" aria-hidden="true">02</span>
+        <svg class="orn-tl" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M8 0c.6 4.4 3.6 7.4 8 8-4.4.6-7.4 3.6-8 8-.6-4.4-3.6-7.4-8-8 4.4-.6 7.4-3.6 8-8z"/></svg>
+        <ul class="rows" role="tablist" aria-label="App features">
+          <li><button class="row-btn" role="tab" aria-selected="true" data-scr="0"><span data-i18n>Browse by category</span><span class="n">01</span></button></li>
+          <li><button class="row-btn" role="tab" aria-selected="false" data-scr="1"><span data-i18n>Meet the sellers</span><span class="n">02</span></button></li>
+          <li><button class="row-btn" role="tab" aria-selected="false" data-scr="2"><span data-i18n>Search everything</span><span class="n">03</span></button></li>
+          <li><button class="row-btn" role="tab" aria-selected="false" data-scr="3"><span data-i18n>Save favorites</span><span class="n">04</span></button></li>
+          <li><button class="row-btn" role="tab" aria-selected="false" data-scr="4"><span data-i18n>Checkout & track</span><span class="n">05</span></button></li>
+        </ul>
+        <div class="row-desc" id="rowDesc" aria-live="polite">
+          <h3 data-i18n>Browse by category</h3>
+          <p data-i18n>Explore products made in the UAE, neatly organized by category.</p>
+        </div>
+        <template id="descs">
+          <div><h3 data-i18n>Browse by category</h3><p data-i18n>Explore products made in the UAE, neatly organized by category.</p></div>
+          <div><h3 data-i18n>Meet the sellers</h3><p data-i18n>Open any seller's profile to see who they are and everything they make.</p></div>
+          <div><h3 data-i18n>Search everything</h3><p data-i18n>One search across all products and sellers, so you find it fast.</p></div>
+          <div><h3 data-i18n>Save favorites</h3><p data-i18n>Tap the heart to keep products you love and come back to them anytime.</p></div>
+          <div><h3 data-i18n>Checkout & track</h3><p data-i18n>Check out from your cart and track every order until it reaches your door.</p></div>
+        </template>
+      </div>
+
+      <div class="phone-stage rv">
+        <div class="phone" aria-hidden="true">
+          <div class="screen">
+            <!-- 0 Home / categories -->
+            <div class="scr on">
+              <div class="s-top"><b data-i18n>Made in UAE</b><span class="s-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1 11H5zM8 9V7a4 4 0 0 1 8 0v2"/></svg></span></div>
+              <div class="s-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg><span data-i18n>Search products & sellers</span></div>
+              <div class="s-banner"><b data-i18n>Shop local</b><span data-i18n>Made with pride in the Emirates</span><svg viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 39h120M10 39V24h8v15M24 39V14h6v25M38 39V20c0-4 6-4 6 0v19M52 39V2l3 6v31M62 39V12l5-5 5 5v27M80 39V22h10v17M98 39V28h12v11"/></svg></div>
+              <div class="s-h"><span style="opacity:1;font-size:12px;font-weight:600" data-i18n>Categories</span></div>
+              <div class="s-cats">
+                <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></i><span data-i18n>Perfume</span></div>
+                <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l3 5-7 13L5 8z"/></svg></i><span data-i18n>Fashion</span></div>
+                <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16v2a8 8 0 0 1-16 0zM9 7c0-2 2-2 2-4M14 7c0-2 2-2 2-4"/></svg></i><span data-i18n>Food</span></div>
+                <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7v9H4zM10 20v-5h4v5"/></svg></i><span data-i18n>Home</span></div>
+              </div>
+              <div class="s-h"><span style="opacity:1;font-size:12px;font-weight:600" data-i18n>New from local makers</span></div>
+              <div class="s-prods">
+                <div class="s-prod"><div class="ph t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><b data-i18n>Oud blend</b><span data-i18n>Local maker</span></div>
+                <div class="s-prod"><div class="ph t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16v2a8 8 0 0 1-16 0z"/></svg></div><b data-i18n>Date selection</b><span data-i18n>Local maker</span></div>
+              </div>
+            </div>
+            <!-- 1 Seller -->
+            <div class="scr">
+              <div class="s-top"><b data-i18n>Seller profile</b><span class="s-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span></div>
+              <div class="s-seller"><span class="s-av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7v9H4z"/></svg></span><div><b data-i18n>A local workshop</b><span class="s-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n>Verified seller</span></span></div></div>
+              <div class="s-tabs"><span class="on" data-i18n>Products</span><span data-i18n>About</span></div>
+              <div class="s-prods">
+                <div class="s-prod"><div class="ph t3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3h8l3 5-7 13L5 8z"/></svg></div><b data-i18n>Handmade item</b><span data-i18n>View details</span></div>
+                <div class="s-prod"><div class="ph t4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11 12 4l8 7v9H4z"/></svg></div><b data-i18n>Home piece</b><span data-i18n>View details</span></div>
+                <div class="s-prod"><div class="ph t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><b data-i18n>Signature scent</b><span data-i18n>View details</span></div>
+                <div class="s-prod"><div class="ph t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16v2a8 8 0 0 1-16 0z"/></svg></div><b data-i18n>Gift box</b><span data-i18n>View details</span></div>
+              </div>
+            </div>
+            <!-- 2 Search -->
+            <div class="scr">
+              <div class="s-top"><b data-i18n>Search</b></div>
+              <div class="s-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg><span style="color:var(--ink)" data-i18n>perfume</span></div>
+              <div class="s-tabs"><span class="on" data-i18n>All</span><span data-i18n>Products</span><span data-i18n>Sellers</span></div>
+              <div class="s-row"><div class="ph t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><div class="tx"><b data-i18n>Oud blend</b><span data-i18n>Product</span></div></div>
+              <div class="s-row"><div class="ph t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11 12 4l8 7v9H4z"/></svg></div><div class="tx"><b data-i18n>A local workshop</b><span data-i18n>Seller</span></div></div>
+              <div class="s-row"><div class="ph t3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><div class="tx"><b data-i18n>Signature scent</b><span data-i18n>Product</span></div></div>
+              <div class="s-row"><div class="ph t4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><div class="tx"><b data-i18n>Travel size</b><span data-i18n>Product</span></div></div>
+            </div>
+            <!-- 3 Favorites -->
+            <div class="scr">
+              <div class="s-top"><b data-i18n>Favorites</b></div>
+              <div class="s-row"><div class="ph t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><div class="tx"><b data-i18n>Oud blend</b><span data-i18n>Local maker</span></div><span class="s-heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span></div>
+              <div class="s-row"><div class="ph t2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11h16v2a8 8 0 0 1-16 0z"/></svg></div><div class="tx"><b data-i18n>Date selection</b><span data-i18n>Local maker</span></div><span class="s-heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span></div>
+              <div class="s-row"><div class="ph t3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3h8l3 5-7 13L5 8z"/></svg></div><div class="tx"><b data-i18n>Handmade item</b><span data-i18n>Local maker</span></div><span class="s-heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span></div>
+              <div class="s-row"><div class="ph t4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11 12 4l8 7v9H4z"/></svg></div><div class="tx"><b data-i18n>Home piece</b><span data-i18n>Local maker</span></div><span class="s-heart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span></div>
+            </div>
+            <!-- 4 Tracking -->
+            <div class="scr">
+              <div class="s-top"><b data-i18n>Your order</b></div>
+              <div class="s-track">
+                <div class="s-step done"><i></i><div><b data-i18n>Order placed</b><span data-i18n>Confirmed</span></div></div>
+                <div class="s-step done"><i></i><div><b data-i18n>Prepared by the seller</b><span data-i18n>Packed with care</span></div></div>
+                <div class="s-step done"><i></i><div><b data-i18n>Out for delivery</b><span data-i18n>On the way to you</span></div></div>
+                <div class="s-step"><i></i><div><b data-i18n>Delivered</b><span data-i18n>At your door</span></div></div>
+              </div>
+              <div class="s-row"><div class="ph t1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3h6v3l2 3v11H7V9l2-3z"/></svg></div><div class="tx"><b data-i18n>Oud blend</b><span data-i18n>Local maker</span></div></div>
+              <div class="s-btn" data-i18n>Track order</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SELLERS (light) ===================== -->
+<section class="light grain" id="sellers">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow rv" data-i18n>For UAE makers & factories</span>
+      <h2 class="rv" data-i18n>Sell with<br>Made in UAE</h2>
+      <p class="rv" data-i18n>Join the platform and reach shoppers looking for local products. Your joining offer, at the platform's expense:</p>
+      <svg class="star rv" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M8 0c.6 4.4 3.6 7.4 8 8-4.4.6-7.4 3.6-8 8-.6-4.4-3.6-7.4-8-8 4.4-.6 7.4-3.6 8-8z"/></svg>
+    </div>
+
+    <div class="perks">
+      <!-- PERK CARD — copy a whole <article> to add one, delete to remove · انسخ البطاقة للإضافة أو احذفها -->
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></i><div><h3 data-i18n>First 3 months free</h3><p data-i18n>No subscription fees for the first three months after activation.</p></div></article>
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></i><div><h3 data-i18n>Professional photography</h3><p data-i18n>We photograph your products at no cost to you.</p></div></article>
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h3l6 4V6L7 10zM17 9a4 4 0 0 1 0 6"/></svg></i><div><h3 data-i18n>Ads prepared for you</h3><p data-i18n>Our team creates and supplies your advertising material.</p></div></article>
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></i><div><h3 data-i18n>Product updates handled</h3><p data-i18n>We update your product data and content for you.</p></div></article>
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg></i><div><h3 data-i18n>Delivery costs on us</h3><p data-i18n>The platform covers delivery fees for orders placed through it.</p></div></article>
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/></svg></i><div><h3 data-i18n>Weekly payouts</h3><p data-i18n>Your earnings are transferred to your account every week.</p></div></article>
+      <article class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h5v16h-5M10 8l-4 4 4 4M6 12h10"/></svg></i><div><h3 data-i18n>Leave with no fees</h3><p data-i18n>Not satisfied in the first three months? Leave with no exit fees or penalties.</p></div></article>
+    </div>
+
+    <div class="more rv">
+      <button class="more-btn caps" id="moreBtn" type="button" aria-expanded="false" aria-controls="morePanel"><span data-i18n>View key contract terms</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="more-panel" id="morePanel"><div>
+        <ul class="terms">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n><b>Term:</b> one calendar year from activation, renewing automatically unless either side gives 30 days' written notice.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n><b>Fees:</b> the first 3 months are free. The agreed package fee applies from month four, plus VAT.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n><b>What we do:</b> your seller page, product listings, photography, ads, product updates, delivery costs and support during working hours.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n><b>What you do:</b> keep your product information accurate, hold the required UAE licenses, and stand behind your products' quality.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n><b>Your brand stays yours:</b> you keep all rights to your trademarks and content.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span data-i18n><b>Governing law:</b> the laws of the United Arab Emirates. The Arabic text of the contract is the official reference.</span></li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="seller-ctas rv">
+      <button class="btn btn-deep" type="button" id="openContract">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7zM14 3v4h4M9 13h6M9 17h4"/></svg>
+        <span data-i18n>Read & sign the joining contract</span>
+      </button>
+      <a class="btn btn-line-deep js-mail-seller" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <span data-i18n>Ask us a question</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DOWNLOAD BAND (dark) ===================== -->
+<section class="dark band" id="download">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i18n>Free on iPhone & Android</span>
+    <h2 class="rv" data-i18n>Shop the Emirates.<br>Download today.</h2>
+    <p class="rv" data-i18n>Local brands, verified sellers and delivery to your door, all in one app.</p>
+    <a class="btn btn-sand btn-wide rv" id="smartGet" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+      <span data-i18n>Download the app</span>
+    </a>
+    <div class="alt rv">
+      <a class="caps js-appstore" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 6 18M12 4l6 14M4 14h16"/></svg>App Store</a>
+      <a class="caps js-play" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5v17l13-8.5z"/></svg>Google Play</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ (light) ===================== -->
+<section class="light grain" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow rv" data-i18n>Questions</span>
+      <h2 class="rv" data-i18n>Good to know</h2>
+    </div>
+    <div class="faq" id="faqList">
+      <!-- FAQ ITEM — copy a whole .faq-item to add one · انسخ العنصر لإضافة سؤال -->
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>What is Made in UAE?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>Made in UAE is a marketplace app for products made in the United Arab Emirates. You can discover local brands and makers, shop from verified sellers in one place, and get your order delivered to your door.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>Is the app free?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>Yes. Made in UAE is free to download on the App Store and Google Play.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>Which devices does it work on?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>iPhone (iOS 16.4 or later) and Android phones.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>Is the app available in Arabic?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>Yes. The app works fully in English and Arabic, with right-to-left support.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>How do I sign in?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>With your phone number and a one-time code. No password to remember.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>How do I sell on Made in UAE?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>Read and sign the joining contract online, then our team activates your seller page.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>What does it cost to join as a seller?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>The first three months are free. After that, the subscription fee of the package you choose applies, plus VAT.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>Can a seller leave the platform?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>Yes. If you are not satisfied during the first three months, you can leave with no exit fees or penalties.</p></div></div></div>
+      <div class="faq-item rv"><button class="faq-q" type="button" aria-expanded="false"><span data-i18n>How are sellers paid?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button><div class="faq-a"><div><p data-i18n>Payouts are transferred to each seller's account weekly.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT (dark) ===================== -->
+<section class="dark" id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow rv" data-i18n>Contact</span>
+      <h2 class="rv" data-i18n>We'd love<br>to hear from you</h2>
+      <p class="rv" data-i18n>Questions about an order, or want to sell your products? Write to us.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="rv">
+        <ul class="c-list" id="cList">
+          <li data-show="email"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i><div><span class="label" data-i18n>Email</span><a class="js-email" href="#"></a></div></li>
+          <li data-show="phone"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></i><div><span class="label" data-i18n>Phone</span><a class="js-phone" href="#" dir="ltr"></a></div></li>
+          <li data-show="whatsapp"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2z"/></svg></i><div><span class="label">WhatsApp</span><a class="js-wa-link" href="#" target="_blank" rel="noopener" dir="ltr"></a></div></li>
+          <li data-show="hours"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i><div><span class="label" data-i18n>Hours</span><span class="js-hours"></span></div></li>
+          <li data-show="address"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></i><div><span class="label" data-i18n>Based in</span><span class="js-address"></span></div></li>
+        </ul>
+        <div class="map"><iframe id="mapFrame" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      </div>
+      <form class="cform rv" id="cform" novalidate>
+        <div class="field"><label class="label" for="cName" data-i18n>Your name</label><input id="cName" name="name" autocomplete="name" required></div>
+        <div class="field"><label class="label" for="cMail" data-i18n>Your email</label><input id="cMail" name="email" type="email" autocomplete="email" inputmode="email" required></div>
+        <div class="field"><label class="label" for="cType" data-i18n>I am</label>
+          <select id="cType" name="type">
+            <option value="Shopper" data-i18n>A shopper</option>
+            <option value="Seller" data-i18n>A seller / maker</option>
+            <option value="Other" data-i18n>Other</option>
+          </select>
+        </div>
+        <div class="field"><label class="label" for="cMsg" data-i18n>Message</label><textarea id="cMsg" name="message" required></textarea></div>
+        <button class="btn btn-sand" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 20 4l-6 16-3-7z"/></svg><span data-i18n>Send message</span></button>
+        <p class="form-note" id="formNote" aria-live="polite" data-i18n>This opens your email app with your message ready to send.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="grain">
+  <div class="wrap">
+    <div class="f-top">
+      <div>
+        <div class="f-wm"><span data-i18n>Made in UAE</span><small class="js-brand-alt">صنع في الإمارات</small></div>
+        <div class="socials" id="socials"></div>
+      </div>
+      <div class="f-col">
+        <h4 class="caps" data-i18n>Get the app</h4>
+        <ul>
+          <li><a class="f-ic js-appstore" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 6 18M12 4l6 14M4 14h16"/></svg>App Store</a></li>
+          <li><a class="f-ic js-play" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5v17l13-8.5z"/></svg>Google Play</a></li>
+          <li><a class="f-ic js-contract" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7zM14 3v4h4M9 13h6M9 17h4"/></svg><span data-i18n>Seller joining contract</span></a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4 class="caps" data-i18n>Contact</h4>
+        <ul>
+          <li><a class="f-ic js-email" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span class="js-email-text"></span></a></li>
+          <li data-show="phone"><a class="f-ic js-phone" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span class="js-phone-text" dir="ltr"></span></a></li>
+          <li class="f-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="js-address"></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span class="caps">© <span id="yr"></span> <span data-i18n>Made in UAE. All rights reserved.</span></span>
+      <span class="caps"><a class="js-privacy" href="#" data-show="privacy" data-i18n>Privacy</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating CTA + WhatsApp -->
+<a class="btn float-cta on-dark" id="floatCta" href="#download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n>Get the app</span></a>
+<a class="wa" id="waBtn" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2z"/></svg>
+</a>
+
+<!-- Contract viewer -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle" aria-hidden="true">
+  <div class="viewer-box">
+    <div class="viewer-bar">
+      <span class="caps t" id="viewerTitle" data-i18n>Seller joining contract</span>
+      <div class="acts">
+        <a class="js-contract-ext" href="#" target="_blank" rel="noopener" aria-label="Open in new tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg></a>
+        <button type="button" id="closeViewer" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+    </div>
+    <iframe id="contractFrame" title="Seller joining contract"></iframe>
+  </div>
+</div>
+
+<script>
+/* ==================== I18N · القاموس العربي ====================
+   "English text exactly as in the HTML": "الترجمة العربية"
+   ================================================================ */
+const I18N = {
+  "Skip to content":"تخطَّ إلى المحتوى",
+  "Made in UAE":"صنع في الإمارات",
+  "Get the app":"حمّل التطبيق",
+  "Why the app":"لماذا التطبيق",
+  "Inside the app":"داخل التطبيق",
+  "Sell with us":"بِع معنا",
+  "Download":"التحميل",
+  "FAQ":"الأسئلة الشائعة",
+  "Contact":"تواصل معنا",
+  "The marketplace for UAE-made products":"السوق الإلكتروني للمنتجات الإماراتية",
+  "Proudly local.<br>One app away.":"فخرٌ محلّي<br>في تطبيق واحد",
+  "Discover local brands and makers, shop from verified sellers in one place, and get your order delivered to your door.":"اكتشف العلامات التجارية والصنّاع المحليين، وتسوّق من بائعين موثّقين في مكان واحد، واستلم طلبك حتى باب بيتك.",
+  "Download on the":"حمّله من",
+  "Get it on":"احصل عليه من",
+  "Free · iPhone & Android · English & Arabic":"مجاني · آيفون وأندرويد · عربي وإنجليزي",
+  "Why Made in UAE":"لماذا صنع في الإمارات",
+  "Local makers.<br>One marketplace.":"صنّاع محليون<br>في سوق واحد",
+  "Everything made in the Emirates, gathered in a single app, from homegrown brands to small makers you won't find anywhere else.":"كل ما يُصنع في الإمارات مجتمعٌ في تطبيق واحد، من العلامات الوطنية إلى الصنّاع الصغار الذين لن تجدهم في أي مكان آخر.",
+  "Local brands":"علامات محلية",
+  "Verified sellers":"بائعون موثّقون",
+  "Delivered to your door":"توصيل حتى باب بيتك",
+  "English & Arabic":"عربي وإنجليزي",
+  "Search everything":"بحث شامل",
+  "Save favorites":"احفظ المفضّلة",
+  "Order tracking":"تتبّع الطلبات",
+  "Phone sign-in":"دخول برقم الهاتف",
+  "Discover local brands":"اكتشف العلامات المحلية",
+  "Browse by category and find homegrown brands and makers from across the seven emirates.":"تصفّح حسب الفئة واكتشف العلامات الوطنية والصنّاع من الإمارات السبع.",
+  "Shop verified sellers":"تسوّق من بائعين موثّقين",
+  "Every seller is verified, and each has a profile so you know exactly who made what you buy.":"كل بائع موثّق، ولكلٍّ منهم صفحة تعريفية لتعرف تمامًا من صنع ما تشتريه.",
+  "One cart, one checkout":"سلة واحدة ودفع واحد",
+  "Add products from different local sellers to a single cart and check out in a few taps.":"أضف منتجات من بائعين محليين مختلفين إلى سلة واحدة وأتمم الشراء بلمسات قليلة.",
+  "Follow your order from confirmation to delivery, right inside the app.":"تابع طلبك من التأكيد حتى التوصيل، من داخل التطبيق.",
+  "Free download":"تحميل مجاني",
+  "No cost to install":"بدون أي تكلفة",
+  "iPhone & Android":"آيفون وأندرويد",
+  "iOS 16.4 or later":"iOS 16.4 أو أحدث",
+  "Two languages":"لغتان",
+  "English & العربية":"العربية و English",
+  "Easy sign-in":"دخول سهل",
+  "Phone number + one-time code":"رقم الهاتف + رمز لمرة واحدة",
+  "Made for the way<br>you shop":"صُمّم على طريقتك<br>في التسوّق",
+  "Tap a feature to see it on screen.":"اضغط على أي ميزة لتراها على الشاشة.",
+  "Browse by category":"تصفّح حسب الفئة",
+  "Meet the sellers":"تعرّف على البائعين",
+  "Checkout & track":"ادفع وتتبّع",
+  "Explore products made in the UAE, neatly organized by category.":"استكشف المنتجات المصنوعة في الإمارات مرتّبةً حسب الفئات.",
+  "Open any seller's profile to see who they are and everything they make.":"افتح صفحة أي بائع لتتعرّف عليه وعلى كل ما يصنعه.",
+  "One search across all products and sellers, so you find it fast.":"بحث واحد في كل المنتجات والبائعين لتجد ما تريد بسرعة.",
+  "Tap the heart to keep products you love and come back to them anytime.":"اضغط على القلب لحفظ المنتجات التي تحبها والعودة إليها متى شئت.",
+  "Check out from your cart and track every order until it reaches your door.":"أتمم الشراء من سلتك وتتبّع كل طلب حتى يصل إلى بابك.",
+  "Search products & sellers":"ابحث في المنتجات والبائعين",
+  "Shop local":"تسوّق محليًا",
+  "Made with pride in the Emirates":"صُنع بفخر في الإمارات",
+  "Categories":"الفئات",
+  "Perfume":"عطور",
+  "Fashion":"أزياء",
+  "Food":"أغذية",
+  "Home":"المنزل",
+  "New from local makers":"جديد الصنّاع المحليين",
+  "Oud blend":"خلطة عود",
+  "Local maker":"صانع محلي",
+  "Date selection":"تشكيلة تمور",
+  "Seller profile":"صفحة البائع",
+  "A local workshop":"ورشة محلية",
+  "Verified seller":"بائع موثّق",
+  "Products":"المنتجات",
+  "About":"نبذة",
+  "Handmade item":"قطعة يدوية",
+  "View details":"عرض التفاصيل",
+  "Home piece":"قطعة منزلية",
+  "Signature scent":"عطر مميّز",
+  "Gift box":"صندوق هدايا",
+  "Search":"بحث",
+  "perfume":"عطر",
+  "All":"الكل",
+  "Sellers":"البائعون",
+  "Product":"منتج",
+  "Seller":"بائع",
+  "Travel size":"حجم السفر",
+  "Favorites":"المفضّلة",
+  "Your order":"طلبك",
+  "Order placed":"تم الطلب",
+  "Confirmed":"تم التأكيد",
+  "Prepared by the seller":"جهّزه البائع",
+  "Packed with care":"مُغلّف بعناية",
+  "Out for delivery":"في الطريق إليك",
+  "On the way to you":"المندوب في الطريق",
+  "Delivered":"تم التوصيل",
+  "At your door":"عند بابك",
+  "Track order":"تتبّع الطلب",
+  "For UAE makers & factories":"للصنّاع والمصانع الإماراتية",
+  "Sell with<br>Made in UAE":"بِع مع<br>صنع في الإمارات",
+  "Join the platform and reach shoppers looking for local products. Your joining offer, at the platform's expense:":"انضم إلى المنصة ووصِل منتجاتك إلى المتسوّقين الباحثين عن المنتج المحلي. مزايا عرض الانضمام على حساب المنصة:",
+  "First 3 months free":"أول ٣ أشهر مجانًا",
+  "No subscription fees for the first three months after activation.":"إعفاء كامل من رسوم الاشتراك خلال الأشهر الثلاثة الأولى من التفعيل.",
+  "Professional photography":"تصوير احترافي",
+  "We photograph your products at no cost to you.":"نصوّر منتجاتك على حسابنا دون أي رسوم عليك.",
+  "Ads prepared for you":"إعلانات مجهّزة لك",
+  "Our team creates and supplies your advertising material.":"يتولّى فريقنا إعداد موادك الإعلانية وتوفيرها.",
+  "Product updates handled":"تحديث المنتجات علينا",
+  "We update your product data and content for you.":"نتولّى تحديث بيانات منتجاتك ومحتواها نيابةً عنك.",
+  "Delivery costs on us":"تكاليف التوصيل علينا",
+  "The platform covers delivery fees for orders placed through it.":"تتحمّل المنصة رسوم توصيل الطلبات المنفّذة عبرها.",
+  "Weekly payouts":"تحويل أسبوعي للمبالغ",
+  "Your earnings are transferred to your account every week.":"تُحوَّل مبالغك إلى حسابك أسبوعيًا.",
+  "Leave with no fees":"خروج بلا رسوم",
+  "Not satisfied in the first three months? Leave with no exit fees or penalties.":"لست راضيًا خلال الأشهر الثلاثة الأولى؟ غادر دون أي رسوم أو غرامات خروج.",
+  "View key contract terms":"اعرف المزيد عن بنود الاتفاقية",
+  "<b>Term:</b> one calendar year from activation, renewing automatically unless either side gives 30 days' written notice.":"<b>المدة:</b> سنة ميلادية من تاريخ التفعيل، تتجدّد تلقائيًا ما لم يُشعر أحد الطرفين الآخر كتابيًا قبل ٣٠ يومًا.",
+  "<b>Fees:</b> the first 3 months are free. The agreed package fee applies from month four, plus VAT.":"<b>الرسوم:</b> أول ٣ أشهر مجانًا، وتُستحق رسوم الباقة المتفق عليها اعتبارًا من الشهر الرابع مضافًا إليها ضريبة القيمة المضافة.",
+  "<b>What we do:</b> your seller page, product listings, photography, ads, product updates, delivery costs and support during working hours.":"<b>التزاماتنا:</b> صفحتك التعريفية، وعرض منتجاتك، والتصوير، والإعلانات، وتحديث المنتجات، وتكاليف التوصيل، والدعم خلال أوقات العمل.",
+  "<b>What you do:</b> keep your product information accurate, hold the required UAE licenses, and stand behind your products' quality.":"<b>التزاماتك:</b> دقّة بيانات منتجاتك، وامتلاك التراخيص اللازمة في الدولة، وضمان جودة منتجاتك.",
+  "<b>Your brand stays yours:</b> you keep all rights to your trademarks and content.":"<b>علامتك ملكك:</b> تحتفظ بجميع حقوق علاماتك التجارية ومحتواك.",
+  "<b>Governing law:</b> the laws of the United Arab Emirates. The Arabic text of the contract is the official reference.":"<b>القانون المطبّق:</b> قوانين دولة الإمارات العربية المتحدة، والنص العربي للاتفاقية هو المرجع المعتمد.",
+  "Read & sign the joining contract":"اقرأ اتفاقية الانضمام ووقّعها",
+  "Ask us a question":"اسألنا",
+  "Free on iPhone & Android":"مجاني على آيفون وأندرويد",
+  "Shop the Emirates.<br>Download today.":"تسوّق من الإمارات<br>حمّل التطبيق اليوم",
+  "Local brands, verified sellers and delivery to your door, all in one app.":"علامات محلية، وبائعون موثّقون، وتوصيل حتى بابك، كلها في تطبيق واحد.",
+  "Download the app":"حمّل التطبيق",
+  "Questions":"أسئلة",
+  "Good to know":"معلومات تهمّك",
+  "What is Made in UAE?":"ما هو تطبيق صنع في الإمارات؟",
+  "Made in UAE is a marketplace app for products made in the United Arab Emirates. You can discover local brands and makers, shop from verified sellers in one place, and get your order delivered to your door.":"صنع في الإمارات سوقٌ إلكتروني للمنتجات المصنوعة في دولة الإمارات العربية المتحدة. اكتشف العلامات والصنّاع المحليين، وتسوّق من بائعين موثّقين في مكان واحد، واستلم طلبك حتى باب بيتك.",
+  "Is the app free?":"هل التطبيق مجاني؟",
+  "Yes. Made in UAE is free to download on the App Store and Google Play.":"نعم، تحميل التطبيق مجاني من آب ستور وجوجل بلاي.",
+  "Which devices does it work on?":"على أي أجهزة يعمل؟",
+  "iPhone (iOS 16.4 or later) and Android phones.":"أجهزة آيفون (iOS 16.4 أو أحدث) وهواتف أندرويد.",
+  "Is the app available in Arabic?":"هل التطبيق متوفر بالعربية؟",
+  "Yes. The app works fully in English and Arabic, with right-to-left support.":"نعم، يعمل التطبيق بالكامل بالعربية والإنجليزية مع دعم الكتابة من اليمين إلى اليسار.",
+  "How do I sign in?":"كيف أسجّل الدخول؟",
+  "With your phone number and a one-time code. No password to remember.":"برقم هاتفك ورمز يُرسل لمرة واحدة، دون الحاجة لكلمة مرور.",
+  "How do I sell on Made in UAE?":"كيف أبيع على صنع في الإمارات؟",
+  "Read and sign the joining contract online, then our team activates your seller page.":"اقرأ اتفاقية الانضمام ووقّعها إلكترونيًا، ثم يفعّل فريقنا صفحتك كبائع.",
+  "What does it cost to join as a seller?":"كم تكلفة الانضمام كبائع؟",
+  "The first three months are free. After that, the subscription fee of the package you choose applies, plus VAT.":"أول ثلاثة أشهر مجانًا، وبعدها تُطبّق رسوم الباقة التي تختارها مضافًا إليها ضريبة القيمة المضافة.",
+  "Can a seller leave the platform?":"هل يمكن للبائع مغادرة المنصة؟",
+  "Yes. If you are not satisfied during the first three months, you can leave with no exit fees or penalties.":"نعم، إذا لم تكن راضيًا خلال الأشهر الثلاثة الأولى يمكنك المغادرة دون أي رسوم أو غرامات.",
+  "How are sellers paid?":"كيف يستلم البائعون مستحقاتهم؟",
+  "Payouts are transferred to each seller's account weekly.":"تُحوَّل المبالغ إلى حساب كل بائع أسبوعيًا.",
+  "We'd love<br>to hear from you":"يسعدنا<br>تواصلك معنا",
+  "Questions about an order, or want to sell your products? Write to us.":"لديك سؤال عن طلب، أو ترغب في بيع منتجاتك؟ راسلنا.",
+  "Email":"البريد الإلكتروني",
+  "Phone":"الهاتف",
+  "Hours":"ساعات العمل",
+  "Based in":"الموقع",
+  "Your name":"الاسم",
+  "Your email":"بريدك الإلكتروني",
+  "I am":"أنا",
+  "A shopper":"متسوّق",
+  "A seller / maker":"بائع / صانع",
+  "Other":"أخرى",
+  "Message":"الرسالة",
+  "Send message":"إرسال الرسالة",
+  "This opens your email app with your message ready to send.":"سيفتح تطبيق البريد لديك والرسالة جاهزة للإرسال.",
+  "Seller joining contract":"اتفاقية انضمام البائعين",
+  "Made in UAE. All rights reserved.":"صنع في الإمارات. جميع الحقوق محفوظة.",
+  "Privacy":"الخصوصية",
+  /* attributes & messages */
+  "Switch language":"تغيير اللغة",
+  "Open menu":"فتح القائمة",
+  "Close menu":"إغلاق القائمة",
+  "Chat on WhatsApp":"تواصل عبر واتساب",
+  "Open in new tab":"فتح في نافذة جديدة",
+  "Close":"إغلاق",
+  "Please fill in your name, a valid email and a message.":"يرجى إدخال الاسم وبريد إلكتروني صحيح والرسالة.",
+  "Your email app should open now. If it doesn't, write to us at":"سيفتح تطبيق البريد الآن. إن لم يفتح، راسلنا على",
+  "Made in UAE — home":"صنع في الإمارات — الرئيسية",
+  "Made in UAE logo":"شعار صنع في الإمارات",
+  "Made in UAE app icon":"أيقونة تطبيق صنع في الإمارات",
+  "Map":"الخريطة"
+};
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,c){return(c||document).querySelector(s)},$$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var lang=window.__LANG||'en';
+  var norm=function(s){return s.replace(/\s+/g,' ').replace(/> </g,'><').replace(/&amp;/g,'&').trim()};
+  var t=function(en){return lang==='ar'&&I18N[en]?I18N[en]:en};
+
+  /* ---------- CONFIG bindings ---------- */
+  var C=CONFIG;
+  var waURL=function(item){var msg=C.whatsappMsg+(item?' '+item:'');return 'https://wa.me/'+C.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(msg)};
+  $$('.js-appstore').forEach(function(a){a.href=C.appStore});
+  $$('.js-play').forEach(function(a){a.href=C.googlePlay});
+  $$('.js-email').forEach(function(a){a.href='mailto:'+C.email;if(!a.children.length)a.textContent=C.email});
+  $$('.js-email-text').forEach(function(s){s.textContent=C.email});
+  $$('.js-phone').forEach(function(a){a.href='tel:'+C.phone.replace(/[^\d+]/g,'');if(!a.children.length)a.textContent=C.phone});
+  $$('.js-phone-text').forEach(function(s){s.textContent=C.phone});
+  $$('.js-hours').forEach(function(s){s.textContent=C.hours});
+  $$('.js-wa-link').forEach(function(a){a.href=waURL();a.textContent='+'+C.whatsapp.replace(/\D/g,'')});
+  $$('.js-contract,.js-contract-ext').forEach(function(a){a.href=C.contractUrl});
+  $$('.js-privacy').forEach(function(a){a.href=C.privacyUrl});
+  $$('.js-mail-seller').forEach(function(a){a.href='mailto:'+C.email+'?subject='+encodeURIComponent('Selling on Made in UAE')});
+  var show={email:!!C.email,phone:!!C.phone,whatsapp:!!C.whatsapp,hours:!!C.hours,address:!!C.address,privacy:!!C.privacyUrl};
+  $$('[data-show]').forEach(function(el){if(!show[el.getAttribute('data-show')])el.hidden=true});
+  $('#mapFrame').src='https://maps.google.com/maps?q='+encodeURIComponent(C.mapQuery)+'&z='+C.mapZoom+'&output=embed';
+  if(C.heroImage){var hb=$('#heroBg');hb.classList.remove('noimg');hb.style.backgroundImage='url("'+C.heroImage+'")'}
+  var wa=$('#waBtn');
+  if(C.whatsapp){wa.hidden=false;wa.href=waURL();document.body.classList.add('has-wa')}
+  $('#yr').textContent=new Date().getFullYear();
+
+  // social icons (line SVG)
+  var ICO={
+    instagram:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17 7v.01"/>',
+    tiktok:'<path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.3 4.5 5 4.8"/>',
+    x:'<path d="M4 4l16 16M20 4 4 20"/>',
+    facebook:'<path d="M14 21v-8h3l.5-3.5H14V7.5c0-1 .4-1.7 1.8-1.7H18V2.8A20 20 0 0 0 15.4 2.6C12.8 2.6 11 4.2 11 7v2.5H8V13h3v8"/>',
+    linkedin:'<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M8 10v6M8 7.5v.01M12 16v-6M12 12.5a2.5 2.5 0 0 1 5 0V16"/>'
+  };
+  var soc=$('#socials');
+  Object.keys(C.social).forEach(function(k){if(!C.social[k])return;var a=document.createElement('a');a.href=C.social[k];a.target='_blank';a.rel='noopener';a.setAttribute('aria-label',k);a.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+ICO[k]+'</svg>';soc.appendChild(a)});
+  if(!soc.children.length)soc.hidden=true;
+
+  // smart download link
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document);
+  var isAndroid=/Android/i.test(ua);
+  var smart=isIOS?C.appStore:isAndroid?C.googlePlay:null;
+  var sg=$('#smartGet');
+  if(smart){sg.href=smart;$$('.js-get').forEach(function(a){a.href=smart;a.target='_blank';a.rel='noopener'});$('#floatCta').href=smart;$('#floatCta').target='_blank';$('#floatCta').rel='noopener'}
+  else{sg.href=C.appStore}
+
+  /* ---------- Language ---------- */
+  var nodes=$$('[data-i18n]').map(function(el){return{el:el,en:norm(el.innerHTML)}});
+  var attrs=[['#langBtn','aria-label'],['#burger','aria-label'],['#waBtn','aria-label'],['.js-contract-ext','aria-label'],['#closeViewer','aria-label'],['.brand','aria-label'],['.brand img','alt'],['.hero-logo','alt'],['#mapFrame','title'],['#contractFrame','title']].map(function(p){var el=$(p[0]);return el?{el:el,a:p[1],en:el.getAttribute(p[1])}:null}).filter(Boolean);
+  var missing=[];
+  function applyLang(l,push){
+    lang=l;
+    var h=document.documentElement;h.lang=l;h.dir=l==='ar'?'rtl':'ltr';
+    nodes.forEach(function(n){if(l==='ar'){if(I18N[n.en]!=null)n.el.innerHTML=I18N[n.en];else missing.push(n.en)}else n.el.innerHTML=n.en});
+    attrs.forEach(function(n){n.el.setAttribute(n.a,t(n.en))});
+    $$('.js-address').forEach(function(s){s.textContent=l==='ar'?C.addressAr:C.address});
+    $$('.js-brand-alt').forEach(function(s){s.textContent=l==='ar'?C.brand:C.brandAr});
+    $('#langBtn').innerHTML=l==='ar'?'<span>EN</span>':'<span class="ar">عربي</span>';
+    document.title=l==='ar'?'تطبيق صنع في الإمارات — تسوّق المنتجات الإماراتية من بائعين موثّقين':'Made in UAE App — Shop Local UAE Brands & Verified Sellers | صنع في الإمارات';
+    var md=$('meta[name="description"]');
+    if(!md.dataset.en)md.dataset.en=md.content;
+    md.content=l==='ar'?'صنع في الإمارات: تطبيق السوق الإلكتروني للمنتجات المصنوعة في دولة الإمارات. اكتشف العلامات والصنّاع المحليين، وتسوّق من بائعين موثّقين، واستلم طلبك حتى بابك. مجاني على آيفون وأندرويد.':md.dataset.en;
+    try{localStorage.setItem('miu-lang',l)}catch(e){}
+    if(push&&history.replaceState)history.replaceState(null,'','/'+l+location.hash);
+    if(missing.length&&window.console){console.info('[i18n] missing Arabic for:',missing);missing=[]}
+    marqueeDir();
+  }
+  $('#langBtn').addEventListener('click',function(){applyLang(lang==='ar'?'en':'ar',true)});
+
+  /* ---------- Marquee duplicate ---------- */
+  var track=$('#chips');
+  track.innerHTML+=track.innerHTML.replace(/class="chip"/g,'class="chip" aria-hidden="true"');
+  nodes=$$('[data-i18n]').map(function(el){return{el:el,en:norm(el.innerHTML)}});
+  function marqueeDir(){}
+
+  /* ---------- Header + menu ---------- */
+  var hdr=$('#hdr'),body=document.body,menu=$('#menu'),burger=$('#burger');
+  function onScroll(){hdr.classList.toggle('solid',window.scrollY>80)}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  function setMenu(open){body.classList.toggle('menu-open',open);burger.setAttribute('aria-expanded',open);menu.setAttribute('aria-hidden',!open);burger.setAttribute('aria-label',t(open?'Close menu':'Open menu'));document.documentElement.style.overflow=open?'hidden':'';
+    $$('.mlink').forEach(function(a,i){a.style.transitionDelay=open?(120+i*60)+'ms':'0ms'})}
+  burger.addEventListener('click',function(){setMenu(!body.classList.contains('menu-open'))});
+  $$('.menu a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){setMenu(false);closeViewer()}});
+
+  /* ---------- Showcase list ---------- */
+  var scrs=$$('.scr'),rows=$$('.row-btn'),desc=$('#rowDesc'),tpl=$('#descs').content.children;
+  rows.forEach(function(b,i){b.addEventListener('click',function(){
+    rows.forEach(function(r){r.setAttribute('aria-selected',r===b)});
+    scrs.forEach(function(s,j){s.classList.toggle('on',j===i)});
+    desc.classList.add('fade-out');
+    setTimeout(function(){var d=tpl[i];desc.innerHTML='<h3>'+t(norm(d.children[0].innerHTML))+'</h3><p>'+t(norm(d.children[1].innerHTML))+'</p>';desc.dataset.i=i;desc.classList.remove('fade-out')},250);
+  })});
+  // keep description in sync with language
+  var _apply=applyLang;applyLang=function(l,p){_apply(l,p);var i=+(desc.dataset.i||0),d=tpl[i];desc.innerHTML='<h3>'+t(norm(d.children[0].innerHTML))+'</h3><p>'+t(norm(d.children[1].innerHTML))+'</p>'};
+  $('#langBtn').replaceWith($('#langBtn').cloneNode(true));
+  $('#langBtn').addEventListener('click',function(){applyLang(lang==='ar'?'en':'ar',true)});
+  attrs.forEach(function(n){if(n.el.id==='langBtn')n.el=$('#langBtn')});
+  // auto-advance showcase until user interacts
+  var auto=setInterval(function(){var cur=rows.findIndex(function(r){return r.getAttribute('aria-selected')==='true'});rows[(cur+1)%rows.length].click()},4200);
+  rows.forEach(function(r){r.addEventListener('pointerdown',function(){clearInterval(auto)},{once:true})});
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)clearInterval(auto);
+
+  /* ---------- FAQ + more ---------- */
+  $$('.faq-q').forEach(function(q){q.addEventListener('click',function(){var o=q.getAttribute('aria-expanded')==='true';q.setAttribute('aria-expanded',!o);q.nextElementSibling.classList.toggle('open',!o)})});
+  var mb=$('#moreBtn'),mp=$('#morePanel');
+  mb.addEventListener('click',function(){var o=mb.getAttribute('aria-expanded')==='true';mb.setAttribute('aria-expanded',!o);mp.classList.toggle('open',!o)});
+
+  /* ---------- Contract viewer ---------- */
+  var viewer=$('#viewer'),frame=$('#contractFrame'),lastFocus=null;
+  function openViewer(){if(!frame.src)frame.src=C.contractUrl;lastFocus=document.activeElement;viewer.classList.add('open');viewer.setAttribute('aria-hidden','false');document.documentElement.style.overflow='hidden';$('#closeViewer').focus()}
+  function closeViewer(){if(!viewer.classList.contains('open'))return;viewer.classList.remove('open');viewer.setAttribute('aria-hidden','true');document.documentElement.style.overflow='';if(lastFocus)lastFocus.focus()}
+  $('#openContract').addEventListener('click',openViewer);
+  $$('.js-contract').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openViewer()})});
+  $('#closeViewer').addEventListener('click',closeViewer);
+  viewer.addEventListener('click',function(e){if(e.target===viewer)closeViewer()});
+
+  /* ---------- Contact form → email ---------- */
+  $('#cform').addEventListener('submit',function(e){
+    e.preventDefault();
+    var n=$('#cName').value.trim(),m=$('#cMail').value.trim(),ty=$('#cType').value,msg=$('#cMsg').value.trim(),note=$('#formNote');
+    if(!n||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)||!msg){note.textContent=t('Please fill in your name, a valid email and a message.');return}
+    var subject='Made in UAE website — '+ty+' — '+n;
+    var bodyTxt='Name: '+n+'\nEmail: '+m+'\nI am: '+ty+'\n\n'+msg;
+    location.href='mailto:'+C.email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(bodyTxt);
+    note.textContent=t('Your email app should open now. If it doesn\'t, write to us at')+' '+C.email;
+  });
+
+  /* ---------- Floating CTA colour + visibility ---------- */
+  var fc=$('#floatCta'),hero=$('#top'),secs=$$('main section, footer');
+  function updFloat(){
+    var hb=hero.getBoundingClientRect().bottom;fc.classList.toggle('show',hb<80);
+    var y=window.innerHeight-60,dark=true;
+    secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.top<=y&&r.bottom>=y)dark=s.classList.contains('dark')});
+    fc.classList.toggle('on-dark',dark);fc.classList.toggle('on-light',!dark);
+  }
+  window.addEventListener('scroll',updFloat,{passive:true});window.addEventListener('resize',updFloat);updFloat();
+
+  /* ---------- Reveal ---------- */
+  var rv=$$('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){var el=en.target,sib=$$('.rv',el.parentElement).filter(function(x){return x.parentElement===el.parentElement}),k=Math.max(0,sib.indexOf(el));el.style.transitionDelay=Math.min(k*100,500)+'ms';el.classList.add('in');io.unobserve(el)}})},{threshold:.15});
+    rv.forEach(function(el){io.observe(el)});
+  }else rv.forEach(function(el){el.classList.add('in')});
+
+  /* ---------- Init language ---------- */
+  applyLang(lang,false);
+})();
+</script>
+</body>
+</html>
